@@ -7,4 +7,5 @@ export const portSchema = z
 	.nonnegative()
 	.openapi({
 		description: '사용할 포트 번호',
+		example: 80,
 	})
