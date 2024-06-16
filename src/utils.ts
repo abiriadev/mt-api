@@ -1,4 +1,9 @@
+import { RouteParameter } from '@asteasolutions/zod-to-openapi/dist/openapi-registry'
 import { createRoute } from '@hono/zod-openapi'
+import { ZodType } from 'zod'
+
+type UnwrapUnion<T, U> = T extends U ? U : Exclude<T, U>
+type UnwrapUndef<T> = UnwrapUnion<T, undefined>
 
 export type Method =
 	| 'get'
@@ -7,50 +12,42 @@ export type Method =
 	| 'patch'
 	| 'delete'
 
-type I = Parameters<typeof createRoute>[0]
-
-export type RouteOptions = Partial<{
+export type RouteOptions<
+	P extends RouteParameter = never,
+	Q extends RouteParameter = never,
+> = Partial<{
 	summary: string
 	description: string
 	reqDescription: string
 	resDescription: string
-	resStatus: number
 	tags: Array<string>
-	query: NonNullable<I['request']>['query']
-	params: NonNullable<I['request']>['params']
-	security: NonNullable<I['security']>
+	query: Q
+	params: P
+	security: Array<Record<string, Array<string>>>
 	errors: Record<number, string>
 }>
 
 export const newRoute = <
-	Res extends NonNullable<
-		NonNullable<
-			I['responses'][200]['content']
-		>['application/json']
-	>['schema'],
+	Req extends ZodType<unknown> | null,
+	Res extends ZodType<unknown> | null,
+	Params extends RouteParameter,
+	Queries extends RouteParameter,
 >(
 	method: Method,
-	path: I['path'],
-	req:
-		| NonNullable<
-				NonNullable<
-					NonNullable<I['request']>['body']
-				>['content']['application/json']
-		  >['schema']
-		| null,
-	res: Res | null,
+	path: string,
+	req: Req,
+	res: Res,
 	{
 		summary,
 		description,
 		reqDescription,
 		resDescription,
-		resStatus,
 		tags,
 		query,
 		params,
 		security,
 		errors,
-	}: RouteOptions = {},
+	}: RouteOptions<Params, Queries> = {},
 ) =>
 	createRoute({
 		method,
@@ -60,37 +57,52 @@ export const newRoute = <
 		tags,
 		security,
 		request: {
-			query,
-			params,
-			body: req
+			query: query as UnwrapUndef<Queries>,
+			params: params as UnwrapUndef<Params>,
+			body: (req
 				? {
 						description: reqDescription,
+						required: true,
 						content: {
 							'application/json': {
 								schema: req,
 							},
 						},
 					}
-				: undefined,
+				: undefined) as Req extends null
+				? undefined
+				: {
+						description: typeof reqDescription
+						required: true
+						content: {
+							'application/json': {
+								schema: NonNullable<Req>
+							}
+						}
+					},
 		},
 		responses: {
-			[resStatus ?? 200]: {
+			200: {
 				description: resDescription ?? '응답',
-				content: res
+				content: (res
 					? {
 							'application/json': {
 								schema: res,
 							},
 						}
-					: undefined,
+					: undefined) as Res extends null
+					? undefined
+					: {
+							'application/json': {
+								schema: NonNullable<Res>
+							}
+						},
 			},
 			...newErrors(errors ?? {}),
 		},
 	})
 
-const newErrors = (
-	errors: Record<number, string>,
-): Record<number, I['responses']['']> =>
+const newErrors = (errors: Record<number, string>) =>
 	Object.fromEntries(
 		Object.entries(errors).map(
 			([code, description]) => [
