@@ -1,5 +1,6 @@
 import { z } from 'zod'
 
 export const passwordSchema = z.object({
-	password: z.string(),
+	old: z.string(),
+	new: z.string(),
 })
