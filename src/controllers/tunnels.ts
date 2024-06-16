@@ -14,9 +14,11 @@ import {
 	ruleSchema,
 	updateRuleSchema,
 } from '../models/rule'
+import { guardOptions } from '../guard'
 
 const sharedOptions = {
 	tags: ['Tunnels'],
+	...guardOptions,
 } satisfies RouteOptions
 
 const hono = new OpenAPIHono()
@@ -27,9 +29,6 @@ hono.openapi(
 		summary: '활성 터널 조회',
 		description: `터널 목록 조회`,
 		resDescription: '터널 배열',
-		errors: {
-			401: '로그인 필요',
-		},
 		...sharedOptions,
 	}),
 	c => {
@@ -44,9 +43,6 @@ hono.openapi(
 		reqDescription: '새 터널 정보',
 		resDescription: '성공시 추가 응답 데이터 없음',
 		resStatus: 201,
-		errors: {
-			401: '로그인 필요',
-		},
 		...sharedOptions,
 	}),
 	_ => {
@@ -62,9 +58,6 @@ hono.openapi(
 		description: `기존 터널 정보를 수정`,
 		resDescription: '성공시 추가 응답 데이터 없음',
 		params: idSchema,
-		errors: {
-			401: '로그인 필요',
-		},
 		...sharedOptions,
 	}),
 	_ => {
@@ -81,9 +74,6 @@ hono.openapi(
 		resDescription: '성공시 추가 응답 데이터 없음',
 		resStatus: 204,
 		params: idSchema,
-		errors: {
-			401: '로그인 필요',
-		},
 		...sharedOptions,
 	}),
 	_ => {
@@ -100,9 +90,6 @@ hono.openapi(
 		resDescription:
 			'기존 터널 정보에 추가적으로 통계 정보 반환',
 		params: idSchema,
-		errors: {
-			401: '로그인 필요',
-		},
 		...sharedOptions,
 	}),
 	c => {
@@ -120,9 +107,6 @@ hono.openapi(
 			summary: '방화벽 규칙 목록 조회',
 			description: `제곧내`,
 			resDescription: '방화벽 규칙 배열',
-			errors: {
-				401: '로그인 필요',
-			},
 			...sharedOptions,
 		},
 	),
@@ -143,9 +127,6 @@ hono.openapi(
 			reqDescription: '새 방화벽 규칙',
 			resDescription: '성공시 추가 응답 데이터 없음',
 			resStatus: 201,
-			errors: {
-				401: '로그인 필요',
-			},
 			...sharedOptions,
 		},
 	),
@@ -168,9 +149,6 @@ hono.openapi(
 			resDescription: '성공시 추가 응답 데이터 없음',
 			resStatus: 204,
 			params: idRuleSchema,
-			errors: {
-				401: '로그인 필요',
-			},
 			...sharedOptions,
 		},
 	),
@@ -188,9 +166,6 @@ hono.openapi(
 		resDescription: '성공시 추가 응답 데이터 없음',
 		resStatus: 204,
 		params: idRuleSchema,
-		errors: {
-			401: '로그인 필요',
-		},
 		...sharedOptions,
 	}),
 	_ => {

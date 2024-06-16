@@ -5,8 +5,10 @@ import {
 	updateProfileSchema,
 } from '../models/profile'
 import { passwordSchema } from '../models/password'
+import { guardOptions } from '../guard'
 
 const sharedOptions = {
+	...guardOptions,
 	tags: ['Account'],
 } satisfies RouteOptions
 
@@ -18,9 +20,6 @@ hono.openapi(
 		summary: '프로필 정보 조회',
 		description: `로그인한 유저의 프로필 정보 조회`,
 		resDescription: '프로필 정보',
-		errors: {
-			401: '로그인 필요',
-		},
 		...sharedOptions,
 	}),
 	c => {
@@ -44,9 +43,6 @@ hono.openapi(
 			reqDescription: '갱신할 프로필 정보',
 			resDescription: '성공시 추가 응답 데이터 없음',
 			resStatus: 204,
-			errors: {
-				401: '로그인 필요',
-			},
 			...sharedOptions,
 		},
 	),
@@ -64,9 +60,6 @@ hono.openapi(
 		reqDescription: '이전 비밀번호와 새 비밀번호',
 		resDescription: '성공시 추가 응답 데이터 없음',
 		resStatus: 204,
-		errors: {
-			401: '로그인 필요',
-		},
 		...sharedOptions,
 	}),
 	_ => {
@@ -82,9 +75,6 @@ hono.openapi(
 		description: `말그대로 계삭. 현재 복구 기능 그딴 거 없음.`,
 		resDescription: '성공시 추가 응답 데이터 없음',
 		resStatus: 204,
-		errors: {
-			401: '로그인 필요',
-		},
 		...sharedOptions,
 	}),
 	_ => {

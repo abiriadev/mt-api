@@ -6,8 +6,10 @@ import {
 	paymentSchema,
 } from '../models/payment'
 import { idSchema } from '../models/id'
+import { guardOptions } from '../guard'
 
 const sharedOptions = {
+	...guardOptions,
 	tags: ['Payments'],
 } satisfies RouteOptions
 
@@ -19,9 +21,6 @@ hono.openapi(
 		summary: '결제 수단 조회',
 		description: `현재 사용자의 모든 결제 수단 조회.`,
 		resDescription: '결제 수단 배열',
-		errors: {
-			401: '로그인 필요',
-		},
 		...sharedOptions,
 	}),
 	c => {
@@ -37,9 +36,6 @@ hono.openapi(
 			'토스가 전달한 authKey 정보. `customerKey`의 경우 인증 토큰으로부터 추론하므로 불필요.',
 		resDescription: '성공시 추가 응답 데이터 없음',
 		resStatus: 201,
-		errors: {
-			401: '로그인 필요. 해당 로그인 정보로부터 customerKey를 추출하므로 반드시 필요함.',
-		},
 		...sharedOptions,
 	}),
 	_ => {
@@ -60,9 +56,6 @@ hono.openapi(
 			description: `성공 또는 실패한 결제 시도를 전부 조회`,
 			resDescription: '청구 내역 배열',
 			resStatus: 200,
-			errors: {
-				401: '로그인 필요',
-			},
 			...sharedOptions,
 		},
 	),
@@ -80,9 +73,6 @@ hono.openapi(
 		resDescription: '성공시 추가 응답 데이터 없음',
 		resStatus: 204,
 		params: idSchema,
-		errors: {
-			401: '로그인 필요',
-		},
 		...sharedOptions,
 	}),
 	_ => {
