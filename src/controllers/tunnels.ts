@@ -1,18 +1,18 @@
 import { OpenAPIHono } from '@hono/zod-openapi'
-import { RouteOptions, newRoute } from '../utils'
-import { idRuleSchema, idSchema } from '../models/params'
+import { RouteOptions, newRoute } from '@/utils.js'
+import { idRuleSchema, idSchema } from '@/models/params.js'
 import {
 	createTunnelSchema,
 	tunnelDetailSchema,
 	tunnelSchema,
 	updateTunnelSchema,
-} from '../models/tunnel'
+} from '@/models/tunnel.js'
 import {
 	createRuleSchema,
 	ruleSchema,
 	updateRuleSchema,
-} from '../models/rule'
-import { guardOptions } from '../guard'
+} from '@/models/rule.js'
+import { guardOptions } from '@/guard.js'
 
 const sharedOptions = {
 	tags: ['Tunnels'],

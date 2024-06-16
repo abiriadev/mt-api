@@ -1,4 +1,4 @@
-import { RouteOptions } from './utils'
+import { RouteOptions } from '@/utils.js'
 
 export const guardOptions = {
 	security: [

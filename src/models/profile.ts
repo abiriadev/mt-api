@@ -1,5 +1,5 @@
 import { z } from 'zod'
-import { emailSchema } from './email'
+import { emailSchema } from '@/models/email.js'
 
 export const profileSchema = z
 	.object({

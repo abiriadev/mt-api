@@ -1,5 +1,5 @@
 import { z } from 'zod'
-import { indexableSchema } from './indexable'
+import { indexableSchema } from '@/models/indexable.js'
 
 export const paymentSchema = indexableSchema
 	.extend({

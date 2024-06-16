@@ -1,8 +1,8 @@
 import { OpenAPIHono } from '@hono/zod-openapi'
-import { signinSchema } from '../models/signin'
-import { signupSchema } from '../models/signup'
-import { authInfoSchema } from '../models/auth-info'
-import { RouteOptions, newRoute } from '../utils'
+import { signinSchema } from '@/models/signin.js'
+import { signupSchema } from '@/models/signup.js'
+import { authInfoSchema } from '@/models/auth-info.js'
+import { RouteOptions, newRoute } from '@/utils.js'
 
 const sharedOptions = {
 	tags: ['Auth'],

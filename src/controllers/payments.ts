@@ -1,12 +1,12 @@
 import { OpenAPIHono } from '@hono/zod-openapi'
-import { RouteOptions, newRoute } from '../utils'
+import { RouteOptions, newRoute } from '@/utils.js'
 import {
 	createPaymentSchema,
 	paymentHistorySchema,
 	paymentSchema,
-} from '../models/payment'
-import { idSchema } from '../models/params'
-import { guardOptions } from '../guard'
+} from '@/models/payment.js'
+import { idSchema } from '@/models/params.js'
+import { guardOptions } from '@/guard.js'
 
 const sharedOptions = {
 	...guardOptions,

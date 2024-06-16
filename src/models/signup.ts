@@ -1,6 +1,6 @@
 import { z } from 'zod'
-import { passwordSchema } from './password'
-import { emailSchema } from './email'
+import { emailSchema } from '@/models/email.js'
+import { passwordSchema } from '@/models/password.js'
 
 export const signupSchema = z
 	.object({

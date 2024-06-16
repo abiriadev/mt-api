@@ -1,10 +1,10 @@
 import { serve } from '@hono/node-server'
 import { OpenAPIHono } from '@hono/zod-openapi'
-import { authRoute } from './controllers/auth'
-import { accountRoute } from './controllers/account'
-import { paymentsRoute } from './controllers/payments'
-import { tunnelsRoute } from './controllers/tunnels'
-import { openapi } from './openapi'
+import { authRoute } from '@/controllers/auth.js'
+import { accountRoute } from '@/controllers/account.js'
+import { paymentsRoute } from '@/controllers/payments.js'
+import { tunnelsRoute } from '@/controllers/tunnels.js'
+import { openapi } from '@/openapi.js'
 
 const hono = new OpenAPIHono()
 

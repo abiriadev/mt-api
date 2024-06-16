@@ -1,11 +1,11 @@
 import { OpenAPIHono } from '@hono/zod-openapi'
-import { RouteOptions, newRoute } from '../utils'
+import { RouteOptions, newRoute } from '@/utils.js'
 import {
 	profileSchema,
 	updateProfileSchema,
-} from '../models/profile'
-import { changePasswordSchema } from '../models/password'
-import { guardOptions } from '../guard'
+} from '@/models/profile.js'
+import { changePasswordSchema } from '@/models/password.js'
+import { guardOptions } from '@/guard.js'
 
 const sharedOptions = {
 	...guardOptions,
