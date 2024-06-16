@@ -6,4 +6,4 @@ services:
     environment:
       - POSTGRES_PASSWORD=1
     volumes:
-      - ./postgres:/var/lib/postgresql/data
+      - ./mnt/postgres:/var/lib/postgresql/data

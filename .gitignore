@@ -32,3 +32,4 @@ lerna-debug.log*
 
 /prisma/docs
 /prisma/dbml
+mnt
