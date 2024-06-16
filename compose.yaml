@@ -11,4 +11,4 @@ services:
     build: .
     restart: always
     ports:
-      - 2727
+      - 2727:2727
