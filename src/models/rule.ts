@@ -1,9 +1,8 @@
 import { z } from 'zod'
-import { indexSchema } from '.'
+import { indexableSchema } from './indexable'
 
-export const ruleSchema = z
-	.object({
-		index: indexSchema,
+export const ruleSchema = indexableSchema
+	.extend({
 		action: z.string(),
 		protocol: z.string(),
 		port: z.number().int().nonnegative(), // TODO: validate port number range

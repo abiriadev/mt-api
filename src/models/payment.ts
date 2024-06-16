@@ -1,9 +1,8 @@
 import { z } from 'zod'
-import { indexSchema } from '.'
+import { indexableSchema } from './indexable'
 
-export const paymentSchema = z
-	.object({
-		index: indexSchema,
+export const paymentSchema = indexableSchema
+	.extend({
 		issuerCode: z.string(),
 		number: z.string(),
 		cardType: z.string(),

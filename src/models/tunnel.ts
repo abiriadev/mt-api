@@ -1,10 +1,9 @@
 import { z } from 'zod'
-import { indexSchema } from '.'
 import { ipSchema } from './ip'
+import { indexableSchema } from './indexable'
 
-export const tunnelSchema = z
-	.object({
-		index: indexSchema,
+export const tunnelSchema = indexableSchema
+	.extend({
 		name: z.string().openapi({
 			description: '터널 이름',
 		}),
