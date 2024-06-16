@@ -2,11 +2,12 @@ import { z } from 'zod'
 import { indexableSchema } from './indexable'
 import { commentableSchema } from './commentable'
 import { portSchema } from './port'
+import { protocolSchema } from './protocol'
 
 export const ruleSchema = indexableSchema
 	.extend({
 		action: z.string(),
-		protocol: z.string(),
+		protocol: protocolSchema,
 		port: portSchema,
 	})
 	.extend(commentableSchema.shape)
