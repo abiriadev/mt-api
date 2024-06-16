@@ -1,6 +1,7 @@
 import { z } from 'zod'
 import { ipSchema } from './ip'
 import { indexableSchema } from './indexable'
+import { commentableSchema } from './commentable'
 
 export const tunnelSchema = indexableSchema
 	.extend({
@@ -10,8 +11,8 @@ export const tunnelSchema = indexableSchema
 		ip: ipSchema,
 		serverIp: ipSchema,
 		type: z.string(),
-		comment: z.string().nullable(),
 	})
+	.extend(commentableSchema.shape)
 	.openapi('Tunnel')
 
 export const createTunnelSchema = tunnelSchema
