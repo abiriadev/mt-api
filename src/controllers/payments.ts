@@ -11,9 +11,10 @@ const sharedOptions = {
 	tags: ['Payments'],
 } satisfies RouteOptions
 
-export const paymentsRoute = new OpenAPIHono()
+const hono = new OpenAPIHono()
+export { hono as paymentsRoute }
 
-paymentsRoute.openapi(
+hono.openapi(
 	newRoute('get', '/', null, paymentSchema.array(), {
 		summary: '결제 수단 조회',
 		description: `현재 사용자의 모든 결제 수단 조회.`,
@@ -28,7 +29,7 @@ paymentsRoute.openapi(
 	},
 )
 
-paymentsRoute.openapi(
+hono.openapi(
 	newRoute('post', '/', createPaymentSchema, null, {
 		summary: '신규 결제 수단 등록',
 		description: `참고: 본 API는 프런트 서버(Next)가 받은 토스 콜백으로부터 간접적으로 호출됨.`,
@@ -48,7 +49,7 @@ paymentsRoute.openapi(
 	},
 )
 
-paymentsRoute.openapi(
+hono.openapi(
 	newRoute(
 		'get',
 		'/history',
@@ -72,7 +73,7 @@ paymentsRoute.openapi(
 	},
 )
 
-paymentsRoute.openapi(
+hono.openapi(
 	newRoute('delete', '/{id}', null, null, {
 		summary: '결제 수단 삭제',
 		description: `해당 계정에서 결제 수단을 삭제함.`,

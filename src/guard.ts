@@ -1,9 +1,10 @@
 import { RouteOptions } from './utils'
 import { OpenAPIHono } from '@hono/zod-openapi'
 
-export const guard = new OpenAPIHono()
+const hono = new OpenAPIHono()
+export { hono as guard }
 
-guard.openAPIRegistry.registerComponent(
+hono.openAPIRegistry.registerComponent(
 	'securitySchemes',
 	'Bearer',
 	{
@@ -14,5 +15,9 @@ guard.openAPIRegistry.registerComponent(
 )
 
 export const guardOptions = {
-	security: [],
+	security: [
+		{
+			Bearer: [],
+		},
+	],
 } satisfies RouteOptions

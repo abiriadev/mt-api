@@ -7,25 +7,25 @@ import { paymentsRoute } from './controllers/payments'
 import { tunnelsRoute } from './controllers/tunnels'
 import { guard } from './guard'
 
-const app = new OpenAPIHono()
+const hono = new OpenAPIHono()
 
-app.doc('/openapi', {
+hono.doc('/openapi', {
 	openapi: '3.0.0',
 	info: { title: 'Mitigation KR', version: '1.0.0' },
 })
-app.get('/openapi/ui', swaggerUI({ url: '/openapi' }))
+hono.get('/openapi/ui', swaggerUI({ url: '/openapi' }))
 
-app.route('/', guard)
+hono.route('/', guard)
 
-app.route('/auth', authRoute)
-app.route('/account', accountRoute)
-app.route('/payments', paymentsRoute)
-app.route('/tunnels', tunnelsRoute)
+hono.route('/auth', authRoute)
+hono.route('/account', accountRoute)
+hono.route('/payments', paymentsRoute)
+hono.route('/tunnels', tunnelsRoute)
 
 const port = 2727
 console.log(`Server is running on port ${port}`)
 
 serve({
-	fetch: app.fetch,
+	fetch: hono.fetch,
 	port,
 })

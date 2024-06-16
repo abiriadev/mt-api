@@ -10,9 +10,10 @@ const sharedOptions = {
 	tags: ['Account'],
 } satisfies RouteOptions
 
-export const accountRoute = new OpenAPIHono()
+const hono = new OpenAPIHono()
+export { hono as accountRoute }
 
-accountRoute.openapi(
+hono.openapi(
 	newRoute('get', '/profile', null, profileSchema, {
 		summary: '프로필 정보 조회',
 		description: `로그인한 유저의 프로필 정보 조회`,
@@ -31,7 +32,7 @@ accountRoute.openapi(
 	},
 )
 
-accountRoute.openapi(
+hono.openapi(
 	newRoute(
 		'patch',
 		'/profile',
@@ -56,7 +57,7 @@ accountRoute.openapi(
 	},
 )
 
-accountRoute.openapi(
+hono.openapi(
 	newRoute('put', '/password', passwordSchema, null, {
 		summary: '비밀번호 변경',
 		description: `참고: 현재 old와 new가 같아도 아무 예외처리 없음`,
@@ -75,7 +76,7 @@ accountRoute.openapi(
 	},
 )
 
-accountRoute.openapi(
+hono.openapi(
 	newRoute('delete', '/', null, null, {
 		summary: '회원 탈퇴',
 		description: `말그대로 계삭. 현재 복구 기능 그딴 거 없음.`,

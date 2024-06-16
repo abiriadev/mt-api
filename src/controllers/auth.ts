@@ -8,9 +8,10 @@ const sharedOptions = {
 	tags: ['Auth'],
 } satisfies RouteOptions
 
-export const authRoute = new OpenAPIHono()
+const hono = new OpenAPIHono()
+export { hono as authRoute }
 
-authRoute.openapi(
+hono.openapi(
 	newRoute(
 		'post',
 		'/signup',
@@ -35,7 +36,7 @@ authRoute.openapi(
 	},
 )
 
-authRoute.openapi(
+hono.openapi(
 	newRoute(
 		'post',
 		'/signin',

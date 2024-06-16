@@ -19,9 +19,10 @@ const sharedOptions = {
 	tags: ['Tunnels'],
 } satisfies RouteOptions
 
-export const tunnelsRoute = new OpenAPIHono()
+const hono = new OpenAPIHono()
+export { hono as tunnelsRoute }
 
-tunnelsRoute.openapi(
+hono.openapi(
 	newRoute('get', '/', null, tunnelSchema.array(), {
 		summary: '활성 터널 조회',
 		description: `터널 목록 조회`,
@@ -36,7 +37,7 @@ tunnelsRoute.openapi(
 	},
 )
 
-tunnelsRoute.openapi(
+hono.openapi(
 	newRoute('post', '/', createTunnelSchema, null, {
 		summary: '신규 터널 생성',
 		description: `주어진 정보로 새 터널 생성`,
@@ -55,7 +56,7 @@ tunnelsRoute.openapi(
 	},
 )
 
-tunnelsRoute.openapi(
+hono.openapi(
 	newRoute('patch', '/{id}', updateTunnelSchema, null, {
 		summary: '터널 정보 수정',
 		description: `기존 터널 정보를 수정`,
@@ -73,7 +74,7 @@ tunnelsRoute.openapi(
 	},
 )
 
-tunnelsRoute.openapi(
+hono.openapi(
 	newRoute('delete', '/{id}', null, null, {
 		summary: '터널 삭제',
 		description: `해당 터널을 삭제`,
@@ -92,7 +93,7 @@ tunnelsRoute.openapi(
 	},
 )
 
-tunnelsRoute.openapi(
+hono.openapi(
 	newRoute('get', '/{id}', null, tunnelDetailSchema, {
 		summary: '터널 상세 정보 조회',
 		description: `터널 통계 및 트래픽 정보 반환`,
@@ -109,7 +110,7 @@ tunnelsRoute.openapi(
 	},
 )
 
-tunnelsRoute.openapi(
+hono.openapi(
 	newRoute(
 		'get',
 		'/{id}/rules',
@@ -130,7 +131,7 @@ tunnelsRoute.openapi(
 	},
 )
 
-tunnelsRoute.openapi(
+hono.openapi(
 	newRoute(
 		'post',
 		'/{id}/rules',
@@ -155,7 +156,7 @@ tunnelsRoute.openapi(
 	},
 )
 
-tunnelsRoute.openapi(
+hono.openapi(
 	newRoute(
 		'patch',
 		'/{id}/rules/{ruleId}',
@@ -180,7 +181,7 @@ tunnelsRoute.openapi(
 	},
 )
 
-tunnelsRoute.openapi(
+hono.openapi(
 	newRoute('delete', '/{id}/rules/{ruleId}', null, null, {
 		summary: '방화벽 규칙 삭제',
 		description: `해당 방화벽 규칙을 제거`,
