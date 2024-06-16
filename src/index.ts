@@ -5,6 +5,7 @@ import { authRoute } from './controllers/auth'
 import { accountRoute } from './controllers/account'
 import { paymentsRoute } from './controllers/payments'
 import { tunnelsRoute } from './controllers/tunnels'
+import { guard } from './guard'
 
 const app = new OpenAPIHono()
 
@@ -12,8 +13,9 @@ app.doc('/openapi', {
 	openapi: '3.0.0',
 	info: { title: 'Mitigation KR', version: '1.0.0' },
 })
-
 app.get('/openapi/ui', swaggerUI({ url: '/openapi' }))
+
+app.route('/', guard)
 
 app.route('/auth', authRoute)
 app.route('/account', accountRoute)
