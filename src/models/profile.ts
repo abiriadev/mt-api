@@ -5,3 +5,5 @@ export const profileSchema = z.object({
 	tel: z.string(),
 	email: z.string().email(),
 })
+
+export const updateProfileSchema = profileSchema.partial()
