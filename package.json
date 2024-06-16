@@ -2,7 +2,8 @@
 	"name": "api",
 	"scripts": {
 		"dev": "tsx watch src/index.ts",
-		"build": "swc src -d dist --strip-leading-paths"
+		"build": "swc src -d dist --strip-leading-paths",
+		"build:tsc": "tsc"
 	},
 	"dependencies": {
 		"@hono/node-server": "^1.11.3",
