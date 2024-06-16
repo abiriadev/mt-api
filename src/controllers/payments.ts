@@ -57,10 +57,8 @@ hono.openapi(
 			resDescription: '청구 내역 배열',
 		},
 	),
-	_ => {
-		return new Response(null, {
-			status: 200,
-		})
+	c => {
+		return c.json([])
 	},
 )
 
