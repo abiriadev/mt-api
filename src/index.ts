@@ -5,6 +5,7 @@ import { accountRoute } from '@/controllers/account.js'
 import { paymentsRoute } from '@/controllers/payments.js'
 import { tunnelsRoute } from '@/controllers/tunnels.js'
 import { openapi } from '@/openapi.js'
+import process from 'process'
 
 const hono = new OpenAPIHono()
 
@@ -43,6 +44,11 @@ hono.route('/tunnels', tunnelsRoute)
 
 const port = 2727
 console.log(`Server is running on port ${port}`)
+
+process.on('SIGINT', () => {
+	console.info('Interrupted')
+	process.exit(0)
+})
 
 serve({
 	fetch: hono.fetch,
