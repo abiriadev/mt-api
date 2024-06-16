@@ -12,10 +12,10 @@ export const passwordSchema = z
 
 export const changePasswordSchema = z
 	.object({
-		old: passwordSchema.openapi({
+		oldPassword: passwordSchema.openapi({
 			description: '이전 비밀번호',
 		}),
-		new: passwordSchema.openapi({
+		newPassword: passwordSchema.openapi({
 			description: '새 비밀번호',
 		}),
 	})
