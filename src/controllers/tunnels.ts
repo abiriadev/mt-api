@@ -5,6 +5,7 @@ import { paymentHistorySchema } from '../models/payment'
 import { idRuleSchema, idSchema } from '../models/id'
 import {
 	createTunnelSchema,
+	tunnelDetailSchema,
 	tunnelSchema,
 	updateTunnelSchema,
 } from '../models/tunnel'
