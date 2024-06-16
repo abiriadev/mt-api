@@ -10,9 +10,9 @@ const sharedOptions = {
 	tags: ['Account'],
 } satisfies RouteOptions
 
-export const app = new OpenAPIHono()
+export const accountRoute = new OpenAPIHono()
 
-app.openapi(
+accountRoute.openapi(
 	newRoute(
 		'get',
 		'/profile',
@@ -29,7 +29,7 @@ app.openapi(
 	},
 )
 
-app.openapi(
+accountRoute.openapi(
 	newRoute(
 		'patch',
 		'/profile',
@@ -44,7 +44,7 @@ app.openapi(
 	},
 )
 
-app.openapi(
+accountRoute.openapi(
 	newRoute(
 		'put',
 		'/password',
@@ -59,7 +59,7 @@ app.openapi(
 	},
 )
 
-app.openapi(
+accountRoute.openapi(
 	newRoute('delete', '/', null, null, sharedOptions),
 	_ => {
 		return new Response(null, {

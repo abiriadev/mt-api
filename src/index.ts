@@ -1,75 +1,20 @@
 import { serve } from '@hono/node-server'
 import { swaggerUI } from '@hono/swagger-ui'
-import { OpenAPIHono, createRoute } from '@hono/zod-openapi'
-import { z } from '@hono/zod-openapi'
-
-const ParamsSchema = z.object({
-	id: z
-		.string()
-		.min(3)
-		.openapi({
-			param: {
-				name: 'id',
-				in: 'path',
-			},
-			example: '1212121',
-		}),
-})
-
-const UserSchema = z
-	.object({
-		id: z.string().openapi({
-			example: '123',
-		}),
-		name: z.string().openapi({
-			example: 'John Doe',
-		}),
-		age: z.number().openapi({
-			example: 42,
-		}),
-	})
-	.openapi('User')
-
-const route = createRoute({
-	method: 'get',
-	path: '/users/{id}',
-	request: {
-		params: ParamsSchema,
-	},
-	responses: {
-		200: {
-			content: {
-				'application/json': {
-					schema: UserSchema,
-				},
-			},
-			description: 'Retrieve the user',
-		},
-	},
-})
+import { OpenAPIHono } from '@hono/zod-openapi'
+import { authRoute } from './controllers/auth'
+import { accountRoute } from './controllers/account'
 
 const app = new OpenAPIHono()
-
-app.openapi(route, c => {
-	const { id } = c.req.valid('param')
-
-	return c.json({
-		id,
-		age: 20,
-		name: 'Ultra-man',
-	})
-})
-
-app.get('/', c => {
-	return c.text('Hello Hono!')
-})
 
 app.doc('/openapi', {
 	openapi: '3.0.0',
 	info: { title: 'Mitigation KR', version: '1.0.0' },
 })
 
-app.get('/doc', swaggerUI({ url: '/openapi' }))
+app.get('/openapi/ui', swaggerUI({ url: '/openapi' }))
+
+app.route('/auth', authRoute)
+app.route('/account', accountRoute)
 
 const port = 2727
 console.log(`Server is running on port ${port}`)
