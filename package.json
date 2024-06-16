@@ -12,7 +12,10 @@
 		"zod": "^3.23.8"
 	},
 	"devDependencies": {
+		"@swc/cli": "^0.3.12",
+		"@swc/core": "^1.6.1",
 		"@types/node": "^20.11.17",
+		"chokidar": "^3.6.0",
 		"prisma": "^5.15.0",
 		"prisma-dbml-generator": "^0.12.0",
 		"prisma-docs-generator": "^0.8.0",
