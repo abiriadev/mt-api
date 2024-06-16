@@ -4,6 +4,9 @@
 		"parser": {
 			"syntax": "typescript"
 		},
+		"paths": {
+			"@/*": ["./src/*"]
+		},
 		"target": "es2022"
 	},
 	"module": {
