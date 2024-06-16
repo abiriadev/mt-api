@@ -31,7 +31,7 @@ model User {
 
     // owned relations
     tunnels  Tunnel[]
-    billings Billing[]
+    payments Payment[]
 }
 
 model Tunnel {
@@ -47,14 +47,14 @@ model Tunnel {
     comment  String?
 
     // owned relations
-    firewalls Firewall[]
+    rules Rule[]
 
     // referenced relations
     userId String
     user   User   @relation(fields: [userId], references: [id])
 }
 
-model Firewall {
+model Rule {
     // inheritances
     id        String   @id @default(uuid())
     index     Int      @unique @default(autoincrement())
@@ -72,7 +72,7 @@ model Firewall {
     tunnel   Tunnel @relation(fields: [tunnelId], references: [id])
 }
 
-model Billing {
+model Payment {
     // inheritances
     id        String   @id @default(uuid())
     index     Int      @unique @default(autoincrement())
