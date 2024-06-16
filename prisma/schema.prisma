@@ -22,16 +22,17 @@ model User {
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
 
+    hash String
+
     // personal informations
     email String @unique
     name  String
     tel   String @unique
-    pfp   String
-    hash  String
 
     // owned relations
-    tunnels  Tunnel[]
-    payments Payment[]
+    tunnels        Tunnel[]
+    payments       Payment[]
+    PaymentHistory PaymentHistory[]
 }
 
 model Tunnel {
@@ -86,6 +87,24 @@ model Payment {
     ownerType  String
 
     // referenced relations
-    userId String
-    user   User   @relation(fields: [userId], references: [id])
+    userId         String
+    user           User             @relation(fields: [userId], references: [id])
+    PaymentHistory PaymentHistory[]
+}
+
+model PaymentHistory {
+    // inheritances
+    id        String   @id @default(uuid())
+    index     Int      @unique @default(autoincrement())
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    successedAt DateTime
+    amount      Int
+
+    // referenced relations
+    userId    String
+    user      User    @relation(fields: [userId], references: [id])
+    paymentId String
+    payment   Payment @relation(fields: [paymentId], references: [id])
 }
