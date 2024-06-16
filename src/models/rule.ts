@@ -1,12 +1,13 @@
 import { z } from 'zod'
 import { indexableSchema } from './indexable'
 import { commentableSchema } from './commentable'
+import { portSchema } from './port'
 
 export const ruleSchema = indexableSchema
 	.extend({
 		action: z.string(),
 		protocol: z.string(),
-		port: z.number().int().nonnegative(), // TODO: validate port number range
+		port: portSchema,
 	})
 	.extend(commentableSchema.shape)
 	.openapi('Rule')
