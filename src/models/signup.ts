@@ -1,10 +1,8 @@
 import { z } from 'zod'
+import { passwordSchema } from './password'
+import { emailSchema } from './email'
 
 export const signupSchema = z.object({
-	email: z.string().email().openapi({
-		description: '이메일 주소',
-	}),
-	password: z.string().openapi({
-		description: '비밀번호',
-	}),
+	email: emailSchema,
+	password: passwordSchema,
 })
