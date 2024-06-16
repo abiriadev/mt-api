@@ -1,8 +1,6 @@
 import { OpenAPIHono } from '@hono/zod-openapi'
 import { RouteOptions, newRoute } from '../utils'
-import { updateProfileSchema } from '../models/profile'
-import { paymentHistorySchema } from '../models/payment'
-import { idRuleSchema, idSchema } from '../models/id'
+import { idRuleSchema, idSchema } from '../models/params'
 import {
 	createTunnelSchema,
 	tunnelDetailSchema,

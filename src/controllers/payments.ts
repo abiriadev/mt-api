@@ -5,7 +5,7 @@ import {
 	paymentHistorySchema,
 	paymentSchema,
 } from '../models/payment'
-import { idSchema } from '../models/id'
+import { idSchema } from '../models/params'
 import { guardOptions } from '../guard'
 
 const sharedOptions = {
