@@ -1,12 +1,15 @@
 import { z } from 'zod'
 import { indexSchema } from '.'
+import { ipSchema } from './ip'
 
 export const tunnelSchema = z
 	.object({
 		index: indexSchema,
-		name: z.string(),
-		ip: z.string().ip(),
-		serverIp: z.string().ip(),
+		name: z.string().openapi({
+			description: '터널 이름',
+		}),
+		ip: ipSchema,
+		serverIp: ipSchema,
 		type: z.string(),
 		comment: z.string().nullable(),
 	})
