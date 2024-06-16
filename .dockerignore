@@ -1,0 +1,6 @@
+*
+!/package.json
+!/pnpm-lock.yaml
+!/.swcrc
+!/src/
+!/prisma/schema.prisma
