@@ -61,10 +61,8 @@ model Rule {
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
 
-    protocol String  @default("tcp")
+    protocol String
     port     Int
-    source   String
-    type     String
     comment  String?
 
     // referenced relations
