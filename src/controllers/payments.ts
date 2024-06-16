@@ -1,7 +1,7 @@
 import { OpenAPIHono } from '@hono/zod-openapi'
 import { RouteOptions, newRoute } from '../utils'
-import { updateProfileSchema } from '../models/profile'
 import {
+	createPaymentSchema,
 	paymentHistorySchema,
 	paymentSchema,
 } from '../models/payment'
@@ -29,7 +29,7 @@ paymentsRoute.openapi(
 )
 
 paymentsRoute.openapi(
-	newRoute('post', '/', updateProfileSchema, null, {
+	newRoute('post', '/', createPaymentSchema, null, {
 		summary: '신규 결제 수단 등록',
 		description: `참고: 본 API는 프런트 서버(Next)가 받은 토스 콜백으로부터 간접적으로 호출됨.`,
 		reqDescription:
