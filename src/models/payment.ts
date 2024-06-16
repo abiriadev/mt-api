@@ -26,7 +26,11 @@ export const paymentSchema = indexableSchema
 
 export const createPaymentSchema = z
 	.object({
-		authKey: z.string(),
+		authKey: z.string().openapi({
+			description: '토스 `authKey`',
+			example:
+				'Z_t5vOvQxrj4499PeiJcjen28-V2RyqgYTwN44Rdzk0=',
+		}),
 	})
 	.openapi('CreatePayment')
 
@@ -34,6 +38,9 @@ export const paymentHistorySchema = z
 	.object({
 		successedAt: z.string().datetime(),
 		payment: paymentSchema,
-		amount: z.number().int().nonnegative(),
+		amount: z.number().int().nonnegative().openapi({
+			description: '청구 금액',
+			example: 120000,
+		}),
 	})
 	.openapi('PaymentHistory')
