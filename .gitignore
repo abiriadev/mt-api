@@ -31,3 +31,4 @@ lerna-debug.log*
 *.db-journal
 
 /prisma/docs
+/prisma/dbml
