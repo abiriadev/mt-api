@@ -36,7 +36,9 @@ export const createPaymentSchema = z
 
 export const paymentHistorySchema = z
 	.object({
-		successedAt: z.string().datetime(),
+		successedAt: z.string().datetime().openapi({
+			description: '결제 발생 시각',
+		}),
 		payment: paymentSchema,
 		amount: z.number().int().nonnegative().openapi({
 			description: '청구 금액',
