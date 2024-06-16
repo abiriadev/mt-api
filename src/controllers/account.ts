@@ -4,7 +4,7 @@ import {
 	profileSchema,
 	updateProfileSchema,
 } from '../models/profile'
-import { passwordSchema } from '../models/password'
+import { changePasswordSchema } from '../models/password'
 import { guardOptions } from '../guard'
 
 const sharedOptions = {
@@ -54,14 +54,20 @@ hono.openapi(
 )
 
 hono.openapi(
-	newRoute('put', '/password', passwordSchema, null, {
-		summary: '비밀번호 변경',
-		description: `참고: 현재 old와 new가 같아도 아무 예외처리 없음`,
-		reqDescription: '이전 비밀번호와 새 비밀번호',
-		resDescription: '성공시 추가 응답 데이터 없음',
-		resStatus: 204,
-		...sharedOptions,
-	}),
+	newRoute(
+		'put',
+		'/password',
+		changePasswordSchema,
+		null,
+		{
+			summary: '비밀번호 변경',
+			description: `참고: 현재 old와 new가 같아도 아무 예외처리 없음`,
+			reqDescription: '이전 비밀번호와 새 비밀번호',
+			resDescription: '성공시 추가 응답 데이터 없음',
+			resStatus: 204,
+			...sharedOptions,
+		},
+	),
 	_ => {
 		return new Response(null, {
 			status: 200,
