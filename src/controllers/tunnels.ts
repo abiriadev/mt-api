@@ -14,10 +14,10 @@ import {
 } from '@/models/rule.js'
 import { guardOptions } from '@/guard.js'
 
-const sharedOptions = {
-	tags: ['Tunnels'],
+const sharedOptions: RouteOptions = {
 	...guardOptions,
-} satisfies RouteOptions
+	tags: ['Tunnels'],
+}
 
 const hono = new OpenAPIHono()
 export { hono as tunnelsRoute }

@@ -4,9 +4,9 @@ import { signupSchema } from '@/models/signup.js'
 import { authInfoSchema } from '@/models/auth-info.js'
 import { RouteOptions, newRoute } from '@/utils.js'
 
-const sharedOptions = {
+const sharedOptions: RouteOptions = {
 	tags: ['Auth'],
-} satisfies RouteOptions
+}
 
 const hono = new OpenAPIHono()
 export { hono as authRoute }

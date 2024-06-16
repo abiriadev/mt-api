@@ -1,6 +1,6 @@
 import { RouteOptions } from '@/utils.js'
 
-export const guardOptions = {
+export const guardOptions: RouteOptions = {
 	security: [
 		{
 			Bearer: [],
@@ -9,4 +9,4 @@ export const guardOptions = {
 	errors: {
 		401: '로그인 필요',
 	},
-} satisfies RouteOptions
+}

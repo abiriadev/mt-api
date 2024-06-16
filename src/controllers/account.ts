@@ -7,20 +7,20 @@ import {
 import { changePasswordSchema } from '@/models/password.js'
 import { guardOptions } from '@/guard.js'
 
-const sharedOptions = {
+const sharedOptions: RouteOptions = {
 	...guardOptions,
 	tags: ['Account'],
-} satisfies RouteOptions
+}
 
 const hono = new OpenAPIHono()
 export { hono as accountRoute }
 
 hono.openapi(
 	newRoute('get', '/profile', null, profileSchema, {
+		...sharedOptions,
 		summary: '프로필 정보 조회',
 		description: `로그인한 유저의 프로필 정보 조회`,
 		resDescription: '프로필 정보',
-		...sharedOptions,
 	}),
 	c => {
 		return c.json({
@@ -38,14 +38,14 @@ hono.openapi(
 		updateProfileSchema,
 		null,
 		{
+			...sharedOptions,
 			summary: '프로필 정보 수정',
 			description: `새 데이터로 프로필 정보를 갱신`,
 			reqDescription: '갱신할 프로필 정보',
 			resDescription: '성공시 추가 응답 데이터 없음',
-			...sharedOptions,
 		},
 	),
-	_ => {
+	c => {
 		return new Response(null, {
 			status: 200, // NOTE: how can I return void without this hack?
 		})
@@ -59,11 +59,11 @@ hono.openapi(
 		changePasswordSchema,
 		null,
 		{
+			...sharedOptions,
 			summary: '비밀번호 변경',
 			description: `참고: 현재 old와 new가 같아도 아무 예외처리 없음`,
 			reqDescription: '이전 비밀번호와 새 비밀번호',
 			resDescription: '성공시 추가 응답 데이터 없음',
-			...sharedOptions,
 		},
 	),
 	_ => {
@@ -75,10 +75,10 @@ hono.openapi(
 
 hono.openapi(
 	newRoute('delete', '/', null, null, {
+		...sharedOptions,
 		summary: '회원 탈퇴',
 		description: `말그대로 계삭. 현재 복구 기능 그딴 거 없음.`,
 		resDescription: '성공시 추가 응답 데이터 없음',
-		...sharedOptions,
 	}),
 	_ => {
 		return new Response(null, {
