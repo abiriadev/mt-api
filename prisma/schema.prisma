@@ -43,7 +43,6 @@ model Tunnel {
 
     ip       String // TODO: @unique
     serverIp String
-    type     String
     comment  String?
 
     // owned relations

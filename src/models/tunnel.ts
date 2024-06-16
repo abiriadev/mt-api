@@ -10,7 +10,6 @@ export const tunnelSchema = indexableSchema
 		}),
 		ip: ipSchema,
 		serverIp: ipSchema,
-		type: z.string(),
 	})
 	.extend(commentableSchema.shape)
 	.openapi('Tunnel')
