@@ -26,7 +26,7 @@ hono.doc('/openapi', {
 	},
 	servers: [
 		{
-			url: '35.72.107.236',
+			url: 'https://api.mitigation.kr',
 			description: 'Hanarin 온프레미스 서버',
 		},
 	],
