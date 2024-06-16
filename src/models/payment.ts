@@ -3,10 +3,24 @@ import { indexableSchema } from './indexable'
 
 export const paymentSchema = indexableSchema
 	.extend({
-		issuerCode: z.string(),
-		number: z.string(),
-		cardType: z.string(),
-		ownerType: z.string(),
+		issuerCode: z.string().openapi({
+			description: '기관 코드',
+			example: '61',
+		}),
+		number: z.string().openapi({
+			description: '마스킹한 카드 번호',
+			example: '12345678****123*',
+		}),
+		cardType: z.string().openapi({
+			description:
+				'카드 종류입니다. 신용, 체크, 기프트 중 하나입니다.',
+			example: '신용',
+		}),
+		ownerType: z.string().openapi({
+			description:
+				'카드의 소유자 타입입니다. 개인, 법인 중 하나입니다.',
+			example: '개인',
+		}),
 	})
 	.openapi('Payment')
 

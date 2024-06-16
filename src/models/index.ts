@@ -6,4 +6,5 @@ export const indexSchema = z
 	.nonnegative()
 	.openapi({
 		description: '고유 ID',
+		example: 123,
 	})
