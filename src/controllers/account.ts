@@ -42,7 +42,6 @@ hono.openapi(
 			description: `새 데이터로 프로필 정보를 갱신`,
 			reqDescription: '갱신할 프로필 정보',
 			resDescription: '성공시 추가 응답 데이터 없음',
-			resStatus: 204,
 			...sharedOptions,
 		},
 	),
@@ -64,7 +63,6 @@ hono.openapi(
 			description: `참고: 현재 old와 new가 같아도 아무 예외처리 없음`,
 			reqDescription: '이전 비밀번호와 새 비밀번호',
 			resDescription: '성공시 추가 응답 데이터 없음',
-			resStatus: 204,
 			...sharedOptions,
 		},
 	),
@@ -80,7 +78,6 @@ hono.openapi(
 		summary: '회원 탈퇴',
 		description: `말그대로 계삭. 현재 복구 기능 그딴 거 없음.`,
 		resDescription: '성공시 추가 응답 데이터 없음',
-		resStatus: 204,
 		...sharedOptions,
 	}),
 	_ => {

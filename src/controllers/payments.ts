@@ -35,7 +35,6 @@ hono.openapi(
 		reqDescription:
 			'토스가 전달한 authKey 정보. `customerKey`의 경우 인증 토큰으로부터 추론하므로 불필요.',
 		resDescription: '성공시 추가 응답 데이터 없음',
-		resStatus: 201,
 		...sharedOptions,
 	}),
 	_ => {
@@ -55,7 +54,6 @@ hono.openapi(
 			summary: '청구 내역 조회',
 			description: `성공 또는 실패한 결제 시도를 전부 조회`,
 			resDescription: '청구 내역 배열',
-			resStatus: 200,
 			...sharedOptions,
 		},
 	),
@@ -71,7 +69,6 @@ hono.openapi(
 		summary: '결제 수단 삭제',
 		description: `해당 계정에서 결제 수단을 삭제함.`,
 		resDescription: '성공시 추가 응답 데이터 없음',
-		resStatus: 204,
 		params: idSchema,
 		...sharedOptions,
 	}),

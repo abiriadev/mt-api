@@ -23,7 +23,6 @@ hono.openapi(
 			reqDescription: '회원가입 시 기입하는 정보',
 			resDescription: '발급된 인증 정보',
 			resStatus: 201,
-			errors: {
 				409: '이미 가입된 이메일 사용',
 			},
 			...sharedOptions,
