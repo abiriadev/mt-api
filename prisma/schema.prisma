@@ -6,3 +6,70 @@ datasource db {
     provider = "sqlite"
     url      = env("DATABASE_URL")
 }
+
+model User {
+    // inheritances
+    id        String   @id @default(uuid())
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    // personal informations
+    email String @unique
+    name  String
+    tel   String @unique
+    pfp   String
+    hash  String
+
+    // owned relations
+    tunnels  Tunnel[]
+    billings Billing[]
+}
+
+model Tunnel {
+    // inheritances
+    id        String   @id @default(uuid())
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    ip       String // TODO: @unique
+    serverIp String
+    type     String
+    comment  String?
+
+    // owned relations
+    firewalls Firewall[]
+
+    // referenced relations
+    userId String
+    user   User   @relation(fields: [userId], references: [id])
+}
+
+model Firewall {
+    // inheritances
+    id        String   @id @default(uuid())
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    protocol String  @default("tcp")
+    port     Int
+    source   String
+    type     String
+    comment  String?
+
+    // referenced relations
+    tunnelId String
+    tunnel   Tunnel @relation(fields: [tunnelId], references: [id])
+}
+
+model Billing {
+    // inheritances
+    id        String   @id @default(uuid())
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    card String
+
+    // referenced relations
+    userId String
+    user   User   @relation(fields: [userId], references: [id])
+}
