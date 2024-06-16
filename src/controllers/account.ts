@@ -46,6 +46,8 @@ hono.openapi(
 		},
 	),
 	c => {
+		const { email } = c.req.valid('json')
+
 		return new Response(null, {
 			status: 200, // NOTE: how can I return void without this hack?
 		})
@@ -66,7 +68,10 @@ hono.openapi(
 			resDescription: '성공시 추가 응답 데이터 없음',
 		},
 	),
-	_ => {
+	c => {
+		const { oldPassword, newPassword } =
+			c.req.valid('json')
+
 		return new Response(null, {
 			status: 200,
 		})

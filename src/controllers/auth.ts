@@ -29,6 +29,8 @@ hono.openapi(
 		},
 	),
 	c => {
+		const { email, password } = c.req.valid('json')
+
 		return c.json({
 			token: '',
 		})
@@ -53,6 +55,8 @@ hono.openapi(
 		},
 	),
 	c => {
+		const { email, password } = c.req.valid('json')
+
 		return c.json({
 			token: '',
 		})

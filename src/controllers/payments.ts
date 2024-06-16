@@ -37,7 +37,9 @@ hono.openapi(
 			'토스가 전달한 authKey 정보. `customerKey`의 경우 인증 토큰으로부터 추론하므로 불필요.',
 		resDescription: '성공시 추가 응답 데이터 없음',
 	}),
-	_ => {
+	c => {
+		const { authKey } = c.req.valid('json')
+
 		return new Response(null, {
 			status: 201,
 		})
@@ -70,7 +72,9 @@ hono.openapi(
 		resDescription: '성공시 추가 응답 데이터 없음',
 		params: idSchema,
 	}),
-	_ => {
+	c => {
+		const { id } = c.req.valid('param')
+
 		return new Response(null, {
 			status: 200,
 		})

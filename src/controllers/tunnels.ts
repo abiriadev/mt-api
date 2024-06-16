@@ -42,7 +42,10 @@ hono.openapi(
 		reqDescription: '새 터널 정보',
 		resDescription: '성공시 추가 응답 데이터 없음',
 	}),
-	_ => {
+	c => {
+		const { name, ip, serverIp, comment } =
+			c.req.valid('json')
+
 		return new Response(null, {
 			status: 201,
 		})
@@ -57,7 +60,11 @@ hono.openapi(
 		resDescription: '성공시 추가 응답 데이터 없음',
 		params: idSchema,
 	}),
-	_ => {
+	c => {
+		const { id } = c.req.valid('param')
+		const { name, ip, serverIp, comment } =
+			c.req.valid('json')
+
 		return new Response(null, {
 			status: 200,
 		})
@@ -72,7 +79,9 @@ hono.openapi(
 		resDescription: '성공시 추가 응답 데이터 없음',
 		params: idSchema,
 	}),
-	_ => {
+	c => {
+		const { id } = c.req.valid('param')
+
 		return new Response(null, {
 			status: 204,
 		})
@@ -89,6 +98,8 @@ hono.openapi(
 		params: idSchema,
 	}),
 	c => {
+		const { id } = c.req.valid('param')
+
 		return c.json({
 			index: 1,
 			name: '터널 1',
@@ -122,6 +133,8 @@ hono.openapi(
 		},
 	),
 	c => {
+		const { id } = c.req.valid('param')
+
 		return c.json([])
 	},
 )
@@ -140,7 +153,11 @@ hono.openapi(
 			resDescription: '성공시 추가 응답 데이터 없음',
 		},
 	),
-	_ => {
+	c => {
+		const { id } = c.req.valid('param')
+		const { protocol, port, comment } =
+			c.req.valid('json')
+
 		return new Response(null, {
 			status: 201,
 		})
@@ -161,7 +178,11 @@ hono.openapi(
 			params: idRuleSchema,
 		},
 	),
-	_ => {
+	c => {
+		const { id, ruleId } = c.req.valid('param')
+		const { protocol, port, comment } =
+			c.req.valid('json')
+
 		return new Response(null, {
 			status: 204,
 		})
@@ -176,7 +197,9 @@ hono.openapi(
 		resDescription: '성공시 추가 응답 데이터 없음',
 		params: idRuleSchema,
 	}),
-	_ => {
+	c => {
+		const { id, ruleId } = c.req.valid('param')
+
 		return new Response(null, {
 			status: 204,
 		})
