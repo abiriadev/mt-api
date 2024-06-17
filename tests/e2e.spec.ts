@@ -155,3 +155,97 @@ describe('signin', () => {
 		expect(res2.status).toBe(401)
 	})
 })
+
+describe('rules', () => {
+	describe('create rule', () => {
+		it('should find a correct tunnel based on ruleId and authId', async () => {
+			const data = {
+				method: 'POST',
+				body: JSON.stringify({
+					email: 'a@kmail.com',
+					password: '12!34',
+				}),
+				headers: new Headers({
+					'Content-Type': 'application/json',
+				}),
+			}
+
+			expect(
+				await hono.request('/auth/signup', data),
+			).toHaveProperty('status', 200)
+
+			const res = await hono.request(
+				'/auth/signin',
+				data,
+			)
+
+			expect(res.status).toBe(200)
+
+			const { token } = await res.json()
+
+			expect(
+				await hono.request('/tunnels', {
+					method: 'POST',
+					body: JSON.stringify({
+						ip: '123.4.5.123',
+						serverIp: '123.46.79.123',
+						comment: null,
+					}),
+					headers: new Headers({
+						'Content-Type': 'application/json',
+						Authorization: `Bearer ${token}`,
+					}),
+				}),
+			).toHaveProperty('status', 200)
+
+			const res2 = await hono.request('/tunnels', {
+				method: 'GET',
+				headers: new Headers({
+					Authorization: `Bearer ${token}`,
+				}),
+			})
+
+			expect(res2).toHaveProperty('status', 200)
+
+			const tunnels = await res2.json()
+
+			expect(tunnels).toHaveLength(1)
+
+			const [{ index: tunnelIndex }] = tunnels
+
+			expect(
+				await hono.request(
+					`/tunnels/${tunnelIndex}/rules`,
+					{
+						method: 'POST',
+						body: JSON.stringify({
+							protocol: 'TCP',
+							port: 1234,
+							comment: null,
+						}),
+						headers: new Headers({
+							'Content-Type':
+								'application/json',
+							Authorization: `Bearer ${token}`,
+						}),
+					},
+				),
+			).toHaveProperty('status', 200)
+
+			const res3 = await hono.request(
+				`/tunnels/${tunnelIndex}/rules`,
+				{
+					method: 'GET',
+					headers: new Headers({
+						Authorization: `Bearer ${token}`,
+					}),
+				},
+			)
+
+			const rules = await res3.json()
+
+			expect(rules).toHaveLength(1)
+			expect(rules[0]).toHaveProperty('port', 1234)
+		})
+	})
+})
