@@ -10,7 +10,10 @@ import {
 	guard,
 	guardOptions,
 } from '@/middlewares/guard.js'
-import { fetchProfileService } from '@/services/profile'
+import {
+	fetchProfileService,
+	updateProfileService,
+} from '@/services/profile'
 
 const sharedOptions = {
 	...guardOptions,
@@ -63,9 +66,21 @@ hono.openapi(
 			resDescription: '성공시 추가 응답 데이터 없음',
 		},
 	),
-	c => {
+	async c => {
 		const { authId } = c.get('auth')
 		const { email } = c.req.valid('json')
+
+		const res = await updateProfileService({
+			authId,
+			data: {
+				email,
+			},
+		})
+
+		if (res === null)
+			return new Response(null, {
+				status: 404,
+			}) as any
 
 		return new Response(null, {
 			status: 200, // NOTE: how can I return void without this hack?
