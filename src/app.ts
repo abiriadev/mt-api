@@ -5,6 +5,7 @@ import { paymentsRoute } from '@/controllers/payments.js'
 import { tunnelsRoute } from '@/controllers/tunnels.js'
 import { openapi } from '@/openapi.js'
 import { logger } from './middlewares/logger.js'
+import { indexRoute } from './controllers/_index.js'
 
 export const hono = new OpenAPIHono()
 
@@ -36,6 +37,7 @@ hono.doc('/openapi', {
 })
 hono.route('/', openapi)
 
+hono.route('/', indexRoute)
 hono.route('/auth', authRoute)
 hono.route('/account', accountRoute)
 hono.route('/payments', paymentsRoute)
