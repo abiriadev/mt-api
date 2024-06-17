@@ -1,3 +1,8 @@
+import { getConfig } from '@/services/config'
+import { createMiddleware } from 'hono/factory'
+import { HTTPException } from 'hono/http-exception'
+import { jwt } from 'hono/jwt'
+
 // NOTE: 타입 정보 날려도 됨
 export const guardOptions = {
 	security: [
@@ -6,6 +11,42 @@ export const guardOptions = {
 		},
 	],
 	errors: {
-		401: '로그인 필요',
+		401: '로그인 필요 또는 토큰 만료됨',
 	},
 }
+
+interface RawJwtPayload {
+	sub: string
+	exp: number
+}
+
+const { jwtSecret } = getConfig()
+
+const jwtInner = jwt({
+	secret: jwtSecret,
+})
+
+export const guard = createMiddleware<{
+	Variables: {
+		authId: string
+	}
+}>(async (c, next) => {
+	if (!c.req.path.startsWith('/auth')) {
+		await jwtInner(c, async () => {
+			const { sub, exp } = c.get(
+				'jwtPayload',
+			) as RawJwtPayload
+
+			if (exp < Date.now())
+				throw new HTTPException(401, {
+					message: 'JWT Token expired',
+				})
+
+			c.set('authId', sub)
+
+			await next()
+		})
+	} else {
+		await next()
+	}
+})
