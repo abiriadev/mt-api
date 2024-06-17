@@ -1,4 +1,7 @@
-import shellExec from 'shell-exec'
+import shellExecModule from 'shell-exec'
+
+const shellExec = (shellExecModule as any)
+	.default as typeof shellExecModule
 
 export interface TunnelUpInfo {
 	interfaceId: string
