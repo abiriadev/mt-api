@@ -10,6 +10,7 @@ RUN ["pnpm", "install"]
 COPY . .
 
 RUN ["pnpm", "run", "build"]
+RUN ["pnpm", "exec", "prisma", "generate"]
 RUN ["pnpm", "prune", "--prod"]
 
 FROM node:20.14.0-alpine3.20 AS runner
