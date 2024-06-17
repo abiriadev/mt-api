@@ -15,6 +15,14 @@ export const guardOptions = {
 	},
 }
 
+export interface AuthContext {
+	Variables: {
+		auth: {
+			authId: string
+		}
+	}
+}
+
 interface RawJwtPayload {
 	sub: string
 	exp: number
@@ -26,27 +34,27 @@ const jwtInner = jwt({
 	secret: jwtSecret,
 })
 
-export const guard = createMiddleware<{
-	Variables: {
-		authId: string
-	}
-}>(async (c, next) => {
-	if (!c.req.path.startsWith('/auth')) {
-		await jwtInner(c, async () => {
-			const { sub, exp } = c.get(
-				'jwtPayload',
-			) as RawJwtPayload
+export const guard = createMiddleware<AuthContext>(
+	async (c, next) => {
+		if (!c.req.path.startsWith('/auth')) {
+			await jwtInner(c, async () => {
+				const { sub, exp } = c.get(
+					'jwtPayload',
+				) as RawJwtPayload
 
-			if (exp < Date.now())
-				throw new HTTPException(401, {
-					message: 'JWT Token expired',
+				if (exp < Date.now())
+					throw new HTTPException(401, {
+						message: 'JWT Token expired',
+					})
+
+				c.set('auth', {
+					authId: sub,
 				})
 
-			c.set('authId', sub)
-
+				await next()
+			})
+		} else {
 			await next()
-		})
-	} else {
-		await next()
-	}
-})
+		}
+	},
+)
