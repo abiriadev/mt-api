@@ -18,6 +18,7 @@ import {
 	guardOptions,
 } from '@/middlewares/guard.js'
 import { prisma } from '@/services/prisma.js'
+import { createTunnelService } from '@/services/tunnel.js'
 
 const sharedOptions: RouteOptions = {
 	...guardOptions,
@@ -68,19 +69,11 @@ hono.openapi(
 		const { ip, serverIp, comment } =
 			c.req.valid('json')
 
-		await prisma.tunnel.create({
-			data: {
-				userId: authId,
-				ip,
-				serverIp,
-				comment,
-			},
-			select: {
-				index: true,
-				ip: true,
-				serverIp: true,
-				comment: true,
-			},
+		await createTunnelService({
+			authId,
+			ip,
+			serverIp,
+			comment,
 		})
 
 		return new Response(null, {
