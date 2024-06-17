@@ -97,11 +97,23 @@ hono.openapi(
 		resDescription: '성공시 추가 응답 데이터 없음',
 		params: idSchema,
 	}),
-	c => {
+	async c => {
 		const { authId } = c.get('auth')
 		const { id } = c.req.valid('param')
-		const { name, ip, serverIp, comment } =
+		const { ip, serverIp, comment } =
 			c.req.valid('json')
+
+		await prisma.tunnel.update({
+			where: {
+				index: id,
+				userId: authId,
+			},
+			data: {
+				ip,
+				serverIp,
+				comment,
+			},
+		})
 
 		return new Response(null, {
 			status: 200,
