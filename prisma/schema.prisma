@@ -51,7 +51,7 @@ model Tunnel {
 
     // referenced relations
     userId String
-    user   User   @relation(fields: [userId], references: [id])
+    user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model Rule {
@@ -67,7 +67,7 @@ model Rule {
 
     // referenced relations
     tunnelId String
-    tunnel   Tunnel @relation(fields: [tunnelId], references: [id])
+    tunnel   Tunnel @relation(fields: [tunnelId], references: [id], onDelete: Cascade)
 }
 
 model Payment {
@@ -88,7 +88,7 @@ model Payment {
 
     // referenced relations
     userId         String
-    user           User             @relation(fields: [userId], references: [id])
+    user           User             @relation(fields: [userId], references: [id], onDelete: Cascade)
     PaymentHistory PaymentHistory[]
 }
 
@@ -104,7 +104,7 @@ model PaymentHistory {
 
     // referenced relations
     userId    String
-    user      User    @relation(fields: [userId], references: [id])
-    paymentId String
-    payment   Payment @relation(fields: [paymentId], references: [id])
+    user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+    paymentId String?
+    payment   Payment? @relation(fields: [paymentId], references: [id], onDelete: SetNull)
 }
