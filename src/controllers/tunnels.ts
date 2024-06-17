@@ -14,6 +14,7 @@ import {
 } from '@/models/rule.js'
 import {
 	AuthContext,
+	guard,
 	guardOptions,
 } from '@/middlewares/guard.js'
 
@@ -24,6 +25,8 @@ const sharedOptions: RouteOptions = {
 
 const hono = new OpenAPIHono<AuthContext>()
 export { hono as tunnelsRoute }
+
+hono.use(guard)
 
 hono.openapi(
 	newRoute('get', '/', null, tunnelSchema.array(), {

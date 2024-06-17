@@ -7,6 +7,7 @@ import {
 import { changePasswordSchema } from '@/models/atoms/password.js'
 import {
 	AuthContext,
+	guard,
 	guardOptions,
 } from '@/middlewares/guard.js'
 
@@ -17,6 +18,8 @@ const sharedOptions = {
 
 const hono = new OpenAPIHono<AuthContext>()
 export { hono as accountRoute }
+
+hono.use(guard)
 
 hono.openapi(
 	newRoute('get', '/profile', null, profileSchema, {

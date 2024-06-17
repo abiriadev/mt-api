@@ -8,6 +8,7 @@ import {
 import { idSchema } from '@/models/params.js'
 import {
 	AuthContext,
+	guard,
 	guardOptions,
 } from '@/middlewares/guard.js'
 
@@ -18,6 +19,8 @@ const sharedOptions: RouteOptions = {
 
 const hono = new OpenAPIHono<AuthContext>()
 export { hono as paymentsRoute }
+
+hono.use(guard)
 
 hono.openapi(
 	newRoute('get', '/', null, paymentSchema.array(), {
