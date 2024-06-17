@@ -155,16 +155,30 @@ hono.openapi(
 			'기존 터널 정보에 추가적으로 통계 정보 반환',
 		params: idSchema,
 	}),
-	c => {
+	async c => {
 		const { authId } = c.get('auth')
 		const { id } = c.req.valid('param')
 
+		const tunnel = await prisma.tunnel.findUnique({
+			where: {
+				index: id,
+				userId: authId,
+			},
+			select: {
+				index: true,
+				ip: true,
+				serverIp: true,
+				comment: true,
+			},
+		})
+
+		if (tunnel === null)
+			return new Response(null, {
+				status: 404,
+			}) as any
+
 		return c.json({
-			index: 1,
-			name: '터널 1',
-			ip: '123.456.789.123',
-			serverIp: '123.456.789.123',
-			comment: '',
+			...tunnel,
 			statistics: {
 				bandwidth: [],
 				inLast: 0,
