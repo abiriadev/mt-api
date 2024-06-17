@@ -99,6 +99,34 @@ describe('signin', () => {
 		expect(res2.status).toBe(200)
 	})
 
+	it('should fail when email does not match', async () => {
+		const res1 = await hono.request('/auth/signup', {
+			method: 'POST',
+			body: JSON.stringify({
+				email: 'a@kmail.com',
+				password: '12!34',
+			}),
+			headers: new Headers({
+				'Content-Type': 'application/json',
+			}),
+		})
+
+		expect(res1.status).toBe(200)
+
+		const res2 = await hono.request('/auth/signin', {
+			method: 'POST',
+			body: JSON.stringify({
+				email: 'ab@kmail.com',
+				password: '12!34',
+			}),
+			headers: new Headers({
+				'Content-Type': 'application/json',
+			}),
+		})
+
+		expect(res2.status).toBe(401)
+	})
+
 	it('should fail when password does not match', async () => {
 		const res1 = await hono.request('/auth/signup', {
 			method: 'POST',
