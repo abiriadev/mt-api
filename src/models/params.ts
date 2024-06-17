@@ -1,11 +1,14 @@
 import { z } from 'zod'
-import { indexSchema } from '@/models/atoms/_index.js'
 
-export const idSchema = z.object({
-	id: indexSchema,
+const paramIdSchema = z.string().openapi({
+	description: '고유 ID',
+	example: '123',
 })
 
-export const idRuleSchema = z.object({
-	id: indexSchema,
-	ruleId: indexSchema,
+export const idSchema = z.object({
+	id: paramIdSchema,
+})
+
+export const idRuleSchema = idSchema.extend({
+	ruleId: paramIdSchema,
 })
