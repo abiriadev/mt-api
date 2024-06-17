@@ -1,5 +1,5 @@
 import { PrismaClient } from '@prisma/client'
-import { getConfig } from './config'
+import { getConfig } from '@/services/config.js'
 
 const { dbHost, dbPort, dbUser, dbPassword, dbDatabase } =
 	getConfig()
