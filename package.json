@@ -5,7 +5,8 @@
 		"dev": "tsx watch src/index.ts",
 		"build": "swc src -d dist --strip-leading-paths",
 		"build:tsc": "tsc",
-		"test": "vitest --pool forks"
+		"test": "vitest --pool forks",
+		"test:e2e": "vitest run --config ./vitest.config.e2e.ts"
 	},
 	"dependencies": {
 		"@hono/node-server": "^1.11.3",
