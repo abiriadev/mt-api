@@ -1,7 +1,7 @@
 // password, secrets and hash related services
 import { getConfig } from './config.js'
 import { hash as agHash, verify } from 'argon2'
-import { sign as jwtSign } from 'jsonwebtoken'
+import jwt from 'jsonwebtoken'
 
 const { pepper, jwtSecret, jwtExpiry } = getConfig()
 
@@ -22,7 +22,7 @@ export const hashVerify = async (
 
 export const sign = async (id: string) =>
 	new Promise((resolve, reject) =>
-		jwtSign(
+		jwt.sign(
 			{},
 			jwtSecret,
 			{
