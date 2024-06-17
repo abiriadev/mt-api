@@ -10,6 +10,7 @@ import {
 	guard,
 	guardOptions,
 } from '@/middlewares/guard.js'
+import { fetchProfileService } from '@/services/profile'
 
 const sharedOptions = {
 	...guardOptions,
@@ -28,13 +29,22 @@ hono.openapi(
 		description: `로그인한 유저의 프로필 정보 조회`,
 		resDescription: '프로필 정보',
 	}),
-	c => {
+	async c => {
 		const { authId } = c.get('auth')
 
+		const res = await fetchProfileService({ authId })
+
+		if (res === null)
+			return new Response(null, {
+				status: 404,
+			}) as any
+
+		const { name, tel, email } = res
+
 		return c.json({
-			name: '',
-			tel: '',
-			email: '',
+			name,
+			tel,
+			email,
 		})
 	},
 )
