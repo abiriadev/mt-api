@@ -20,7 +20,7 @@ export const hashVerify = async (
 ): Promise<boolean> =>
 	await verify(hash, password, agOption)
 
-export const sign = async (id: string) =>
+export const sign = async (id: string): Promise<string> =>
 	new Promise((resolve, reject) =>
 		jwt.sign(
 			{},
@@ -30,7 +30,9 @@ export const sign = async (id: string) =>
 				subject: id,
 			},
 			(err, token) =>
-				err ? reject(err) : resolve(token),
+				err ?? token === undefined
+					? reject(err)
+					: resolve(token),
 		),
 	)
 
