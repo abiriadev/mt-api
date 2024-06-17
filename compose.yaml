@@ -12,3 +12,6 @@ services:
     restart: always
     ports:
       - 2727:2727
+    environment:
+      - JWT_SECRET=${JWT_SECRET}
+      - DB_PASSWORD=${DB_PASSWORD}
