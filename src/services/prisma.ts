@@ -1,3 +1,9 @@
 import { PrismaClient } from '@prisma/client'
+import { getConfig } from './config'
 
-export const prisma = new PrismaClient()
+const { dbHost, dbPort, dbUser, dbPassword, dbDatabase } =
+	getConfig()
+
+export const prisma = new PrismaClient({
+	datasourceUrl: `postgresql://${dbUser}:${dbPassword}@${dbHost}:${dbPort}/${dbDatabase}`,
+})
