@@ -6,7 +6,7 @@ import { RouteOptions, newRoute } from '@/utils.js'
 import {
 	signinService,
 	signupService,
-} from '@/services/auth'
+} from '@/services/auth.js'
 
 const sharedOptions: RouteOptions = {
 	tags: ['Auth'],
