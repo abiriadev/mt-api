@@ -1,5 +1,5 @@
 import { prisma } from '@/services/prisma.js'
-import { tunnelDown, tunnelUp } from './tunnelMgr'
+import { tunnelDown, tunnelUp } from './tunnelMgr.js'
 
 export interface CreateTunnelServiceParam {
 	authId: string
