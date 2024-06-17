@@ -4,7 +4,7 @@ import { signupSchema } from '@/models/signup.js'
 import { authInfoSchema } from '@/models/auth-info.js'
 import { RouteOptions, newRoute } from '@/utils.js'
 import { prisma } from '@/services/prisma.js'
-import { hash } from '@/services/crypt.js'
+import { hash, sign } from '@/services/crypt.js'
 import { Prisma } from '@prisma/client'
 
 const sharedOptions: RouteOptions = {
@@ -35,7 +35,7 @@ hono.openapi(
 		const { email, password } = c.req.valid('json')
 
 		try {
-			await prisma.user.create({
+			const { id } = await prisma.user.create({
 				data: {
 					email,
 					hash: await hash(password),
@@ -45,7 +45,7 @@ hono.openapi(
 			})
 
 			return c.json({
-				token: '',
+				token: sign(id),
 			})
 		} catch (e) {
 			if (
