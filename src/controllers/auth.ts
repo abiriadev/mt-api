@@ -4,7 +4,7 @@ import { signupSchema } from '@/models/signup.js'
 import { authInfoSchema } from '@/models/auth-info.js'
 import { RouteOptions, newRoute } from '@/utils.js'
 import { prisma } from '@/services/prisma.js'
-import { hash, sign } from '@/services/crypt.js'
+import { hash, hashVerify, sign } from '@/services/crypt.js'
 import { Prisma } from '@prisma/client'
 
 const sharedOptions: RouteOptions = {
@@ -47,7 +47,7 @@ hono.openapi(
 			})
 
 			return c.json({
-				token: sign(id),
+				token: await sign(id),
 			})
 		} catch (e) {
 			if (
@@ -83,11 +83,27 @@ hono.openapi(
 			},
 		},
 	),
-	c => {
+	async c => {
 		const { email, password } = c.req.valid('json')
 
+		const user = await prisma.user.findUnique({
+			where: { email },
+		})
+
+		if (user === null)
+			return new Response(null, {
+				status: 401,
+			}) as any // TODO: fix typing
+
+		const { id, hash } = user
+
+		if (!(await hashVerify(password, hash)))
+			return new Response(null, {
+				status: 401,
+			}) as any // TODO: fix typing
+
 		return c.json({
-			token: '',
+			token: await sign(id),
 		})
 	},
 )
