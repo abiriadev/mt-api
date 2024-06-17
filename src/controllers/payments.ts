@@ -82,10 +82,29 @@ hono.openapi(
 			resDescription: '청구 내역 배열',
 		},
 	),
-	c => {
+	async c => {
 		const { authId } = c.get('auth')
 
-		return c.json([])
+		const res = await prisma.paymentHistory.findMany({
+			where: {
+				userId: authId,
+			},
+			select: {
+				successedAt: true,
+				payment: {
+					select: {
+						index: true,
+						issuerCode: true,
+						number: true,
+						cardType: true,
+						ownerType: true,
+					},
+				},
+				amount: true,
+			},
+		})
+
+		return c.json(res)
 	},
 )
 
