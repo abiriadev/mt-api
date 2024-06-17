@@ -16,5 +16,6 @@ services:
     environment:
       - JWT_SECRET=${JWT_SECRET}
       - DB_PASSWORD=${DB_PASSWORD}
+      - PEPPER=${PEPPER}
     profiles:
       - api
