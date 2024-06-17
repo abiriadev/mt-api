@@ -3,6 +3,9 @@ import { signinSchema } from '@/models/signin.js'
 import { signupSchema } from '@/models/signup.js'
 import { authInfoSchema } from '@/models/auth-info.js'
 import { RouteOptions, newRoute } from '@/utils.js'
+import { prisma } from '@/services/prisma.js'
+import { hash } from '@/services/crypt.js'
+import { Prisma } from '@prisma/client'
 
 const sharedOptions: RouteOptions = {
 	tags: ['Auth'],
@@ -28,12 +31,36 @@ hono.openapi(
 			},
 		},
 	),
-	c => {
+	async c => {
 		const { email, password } = c.req.valid('json')
 
-		return c.json({
-			token: '',
-		})
+		try {
+			await prisma.user.create({
+				data: {
+					email,
+					hash: await hash(password),
+					name: '<실명> PASS placeholder',
+					tel: '<전화번호> PASS placeholder',
+				},
+			})
+
+			return c.json({
+				token: '',
+			})
+		} catch (e) {
+			if (
+				!(
+					e instanceof
+					Prisma.PrismaClientKnownRequestError
+				)
+			)
+				throw e
+			if (e.code !== 'P2002') throw e
+
+			return new Response(null, {
+				status: 409,
+			}) as any // TODO: fix typing
+		}
 	},
 )
 
