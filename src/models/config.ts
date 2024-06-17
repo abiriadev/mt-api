@@ -6,20 +6,23 @@ const simplePortSchema = z
 	.nonnegative()
 	.lt(1 << 16)
 
+const secretSchema = z.string().min(4)
+
 const networkConfigSchema = z.object({
 	host: z.string().default('api.mitigation.kr'),
 	port: simplePortSchema.default(2727),
 })
 
 const authCredentialsConfigSchema = z.object({
-	jwtSecret: z.string().min(4),
+	jwtSecret: secretSchema,
+	pepper: secretSchema,
 })
 
 const dbCredentialsConfigSchema = z.object({
 	dbHost: z.string().default('db'),
 	dbPort: simplePortSchema.default(5432),
 	dbUser: z.string().default('postgres'),
-	dbPassword: z.string(),
+	dbPassword: secretSchema,
 	dbDatabase: z.string().default('miti'),
 })
 
