@@ -17,13 +17,13 @@ const clearAll = async () => {
 
 beforeAll(clearAll)
 
+beforeEach(clearAll)
+
+afterEach(clearAll)
+
 afterAll(clearAll)
 
 describe('signup', () => {
-	beforeEach(clearAll)
-
-	afterEach(clearAll)
-
 	it('should issue a new access token when signup success', async () => {
 		const res = await hono.request('/auth/signup', {
 			method: 'POST',
@@ -68,5 +68,35 @@ describe('signup', () => {
 		)
 
 		expect(res2.status).toBe(409)
+	})
+})
+
+describe('signin', () => {
+	it('should fail when password does not match', async () => {
+		const res1 = await hono.request('/auth/signup', {
+			method: 'POST',
+			body: JSON.stringify({
+				email: 'a@kmail.com',
+				password: '12!34',
+			}),
+			headers: new Headers({
+				'Content-Type': 'application/json',
+			}),
+		})
+
+		expect(res1.status).toBe(200)
+
+		const res2 = await hono.request('/auth/signin', {
+			method: 'POST',
+			body: JSON.stringify({
+				email: 'a@kmail.com',
+				password: '12!3a',
+			}),
+			headers: new Headers({
+				'Content-Type': 'application/json',
+			}),
+		})
+
+		expect(res2.status).toBe(401)
 	})
 })
