@@ -11,6 +11,7 @@ import {
 	guard,
 	guardOptions,
 } from '@/middlewares/guard.js'
+import { prisma } from '@/services/prisma.js'
 
 const sharedOptions: RouteOptions = {
 	...guardOptions,
@@ -29,10 +30,23 @@ hono.openapi(
 		description: `현재 사용자의 모든 결제 수단 조회.`,
 		resDescription: '결제 수단 배열',
 	}),
-	c => {
+	async c => {
 		const { authId } = c.get('auth')
 
-		return c.json([])
+		const res = await prisma.payment.findMany({
+			where: {
+				userId: authId,
+			},
+			select: {
+				index: true,
+				issuerCode: true,
+				number: true,
+				cardType: true,
+				ownerType: true,
+			},
+		})
+
+		return c.json(res)
 	},
 )
 
