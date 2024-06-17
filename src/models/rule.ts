@@ -17,6 +17,6 @@ export const createRuleSchema = ruleSchema
 	})
 	.openapi('CreateRule')
 
-export const updateRuleSchema = createRuleSchema
+export const updateRuleSchema = commentableSchema
 	.partial()
 	.openapi('UpdateRule')

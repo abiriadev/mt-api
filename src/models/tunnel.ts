@@ -17,7 +17,7 @@ export const createTunnelSchema = tunnelSchema
 	})
 	.openapi('CreateTunnel')
 
-export const updateTunnelSchema = createTunnelSchema
+export const updateTunnelSchema = commentableSchema
 	.partial()
 	.openapi('UpdateTunnel')
 
