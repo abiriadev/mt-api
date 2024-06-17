@@ -244,14 +244,28 @@ hono.openapi(
 			params: idSchema,
 		},
 	),
-	c => {
+	async c => {
 		const { authId } = c.get('auth')
 		const { id } = c.req.valid('param')
 		const { protocol, port, comment } =
 			c.req.valid('json')
 
+		await prisma.rule.create({
+			data: {
+				tunnel: {
+					connect: {
+						index: id,
+						userId: authId,
+					},
+				},
+				protocol,
+				port,
+				comment,
+			},
+		})
+
 		return new Response(null, {
-			status: 201,
+			status: 200,
 		})
 	},
 )
