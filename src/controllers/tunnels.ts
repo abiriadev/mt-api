@@ -129,12 +129,19 @@ hono.openapi(
 		resDescription: '성공시 추가 응답 데이터 없음',
 		params: idSchema,
 	}),
-	c => {
+	async c => {
 		const { authId } = c.get('auth')
 		const { id } = c.req.valid('param')
 
+		await prisma.tunnel.delete({
+			where: {
+				index: id,
+				userId: authId,
+			},
+		})
+
 		return new Response(null, {
-			status: 204,
+			status: 200,
 		})
 	},
 )
