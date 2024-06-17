@@ -23,6 +23,9 @@ dependencies:
   shell-exec:
     specifier: ^1.1.2
     version: 1.1.2
+  tslog:
+    specifier: ^4.9.3
+    version: 4.9.3
   zod:
     specifier: ^3.23.8
     version: 3.23.8
@@ -3801,6 +3804,11 @@ packages:
   /ts-toolbelt@9.6.0:
     resolution: {integrity: sha512-nsZd8ZeNUzukXPlJmTBwUAuABDe/9qtVDelJeT/qW0ow3ZS3BsQJtNkan1802aM9Uf68/Y8ljw86Hu0h5IUW3w==}
     dev: true
+
+  /tslog@4.9.3:
+    resolution: {integrity: sha512-oDWuGVONxhVEBtschLf2cs/Jy8i7h1T+CpdkTNWQgdAF7DhRo2G8vMCgILKe7ojdEkLhICWgI1LYSSKaJsRgcw==}
+    engines: {node: '>=16'}
+    dev: false
 
   /tsx@4.15.5:
     resolution: {integrity: sha512-iKi8jQ2VBmZ2kU/FkGkL2OSHBHsazsUzsdC/W/RwhKIEsIoZ1alCclZHP5jGfNHEaEWUJFM1GquzCf+4db3b0w==}
