@@ -1,21 +1,48 @@
 import { hono } from '@/app'
+import { signVerify } from '@/services/crypt'
 import { prisma } from '@/services/prisma'
-import { describe } from 'node:test'
-import { afterAll, beforeAll, expect, it } from 'vitest'
+import {
+	afterAll,
+	afterEach,
+	beforeAll,
+	beforeEach,
+	describe,
+	expect,
+	it,
+} from 'vitest'
 
 const clearAll = async () => {
 	await prisma.$transaction([prisma.user.deleteMany()])
 }
 
-beforeAll(async () => {
-	await clearAll()
-})
+beforeAll(clearAll)
 
-afterAll(async () => {
-	await clearAll()
-})
+afterAll(clearAll)
 
-describe('e2e', () => {
+describe('signup', () => {
+	beforeEach(clearAll)
+
+	afterEach(clearAll)
+
+	it('should issue a new access token when signup success', async () => {
+		const res = await hono.request('/auth/signup', {
+			method: 'POST',
+			body: JSON.stringify({
+				email: 'a@kmail.com',
+				password: '12!34',
+			}),
+			headers: new Headers({
+				'Content-Type': 'application/json',
+			}),
+		})
+
+		expect(res.status).toBe(200)
+
+		const { token } = await res.json()
+
+		expect(signVerify(token)).toBeTruthy()
+	})
+
 	it('should return 409 when the same email already exists', async () => {
 		const data = {
 			method: 'POST',
