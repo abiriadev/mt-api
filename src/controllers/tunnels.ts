@@ -130,6 +130,7 @@ hono.openapi(
 			summary: '방화벽 규칙 목록 조회',
 			description: `제곧내`,
 			resDescription: '방화벽 규칙 배열',
+			params: idSchema,
 		},
 	),
 	c => {
@@ -151,6 +152,7 @@ hono.openapi(
 			description: `신규 방화벽 규칙 등록`,
 			reqDescription: '새 방화벽 규칙',
 			resDescription: '성공시 추가 응답 데이터 없음',
+			params: idSchema,
 		},
 	),
 	c => {

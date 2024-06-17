@@ -4,7 +4,7 @@ import {
 	profileSchema,
 	updateProfileSchema,
 } from '@/models/profile.js'
-import { changePasswordSchema } from '@/models/password.js'
+import { changePasswordSchema } from '@/models/atoms/password.js'
 import { guardOptions } from '@/middlewares/guard.js'
 
 const sharedOptions = {
