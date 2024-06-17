@@ -3,7 +3,6 @@ import { signinSchema } from '@/models/signin.js'
 import { signupSchema } from '@/models/signup.js'
 import { authInfoSchema } from '@/models/auth-info.js'
 import { RouteOptions, newRoute } from '@/utils.js'
-import { prisma } from '@/services/prisma.js'
 import {
 	signinService,
 	signupService,
