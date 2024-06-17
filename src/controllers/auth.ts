@@ -40,7 +40,9 @@ hono.openapi(
 					email,
 					hash: await hash(password),
 					name: '<실명> PASS placeholder',
-					tel: '<전화번호> PASS placeholder',
+					tel:
+						'<전화번호> PASS placeholder' +
+						Math.random(),
 				},
 			})
 
