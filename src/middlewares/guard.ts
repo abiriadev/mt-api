@@ -41,7 +41,7 @@ export const guard = createMiddleware<AuthContext>(
 				'jwtPayload',
 			) as RawJwtPayload
 
-			if (exp < Date.now())
+			if (exp < Date.now() / 1000)
 				throw new HTTPException(401, {
 					message: 'JWT Token expired',
 				})
