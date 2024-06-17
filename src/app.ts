@@ -5,10 +5,12 @@ import { paymentsRoute } from '@/controllers/payments.js'
 import { tunnelsRoute } from '@/controllers/tunnels.js'
 import { openapi } from '@/openapi.js'
 import { logger } from './middlewares/logger.js'
+import { guard } from './middlewares/guard.js'
 
 export const hono = new OpenAPIHono()
 
 hono.use(logger)
+hono.use(guard)
 
 hono.doc('/openapi', {
 	openapi: '3.0.1',
