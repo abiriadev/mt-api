@@ -15,6 +15,12 @@ generator docs {
     provider = "node node_modules/prisma-docs-generator"
 }
 
+enum Protocol {
+    TCP
+    ICMP
+    IDP
+}
+
 model User {
     // inheritances
     id        String   @id @default(uuid())
@@ -61,7 +67,7 @@ model Rule {
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
 
-    protocol String
+    protocol Protocol
     port     Int
     comment  String?
 
