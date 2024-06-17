@@ -1,4 +1,5 @@
 import { serve } from '@hono/node-server'
+import { logger } from 'hono/logger'
 import { OpenAPIHono } from '@hono/zod-openapi'
 import { authRoute } from '@/controllers/auth.js'
 import { accountRoute } from '@/controllers/account.js'
@@ -8,6 +9,8 @@ import { openapi } from '@/openapi.js'
 import process from 'process'
 
 const hono = new OpenAPIHono()
+
+hono.use(logger())
 
 hono.doc('/openapi', {
 	openapi: '3.0.1',
