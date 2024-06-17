@@ -7,7 +7,7 @@ const simplePortSchema = z
 	.lt(1 << 16)
 
 const networkConfigSchema = z.object({
-	host: z.string().default('0.0.0.0'),
+	host: z.string().default('api.mitigation.kr'),
 	port: simplePortSchema.default(2727),
 })
 
