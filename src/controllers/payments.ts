@@ -6,7 +6,7 @@ import {
 	paymentSchema,
 } from '@/models/payment.js'
 import { idSchema } from '@/models/params.js'
-import { guardOptions } from '@/guard.js'
+import { guardOptions } from '@/middlewares/guard.js'
 
 const sharedOptions: RouteOptions = {
 	...guardOptions,

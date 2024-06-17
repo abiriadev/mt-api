@@ -12,7 +12,7 @@ import {
 	ruleSchema,
 	updateRuleSchema,
 } from '@/models/rule.js'
-import { guardOptions } from '@/guard.js'
+import { guardOptions } from '@/middlewares/guard.js'
 
 const sharedOptions: RouteOptions = {
 	...guardOptions,

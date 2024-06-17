@@ -1,16 +1,16 @@
-import { OpenAPIHono } from '@hono/zod-openapi'
+import { OpenAPIHono, createRoute } from '@hono/zod-openapi'
 import { RouteOptions, newRoute } from '@/utils.js'
 import {
 	profileSchema,
 	updateProfileSchema,
 } from '@/models/profile.js'
 import { changePasswordSchema } from '@/models/password.js'
-import { guardOptions } from '@/guard.js'
+import { guardOptions } from '@/middlewares/guard.js'
 
-const sharedOptions: RouteOptions = {
+const sharedOptions = {
 	...guardOptions,
 	tags: ['Account'],
-}
+} satisfies RouteOptions
 
 const hono = new OpenAPIHono()
 export { hono as accountRoute }
