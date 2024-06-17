@@ -1,8 +1,9 @@
 // password, secrets and hash related services
 import { getConfig } from './config.js'
-import { hash as agHash, verify as agVerify } from 'argon2'
+import { hash as agHash, verify } from 'argon2'
+import { sign as jwtSign } from 'jsonwebtoken'
 
-const { pepper } = getConfig()
+const { pepper, jwtSecret, jwtExpiry } = getConfig()
 
 const agOption = {
 	timeCost: 4,
@@ -13,8 +14,22 @@ export const hash = async (
 	password: string,
 ): Promise<string> => await agHash(password, agOption)
 
-export const verify = async (
+export const hashVerify = async (
 	password: string,
 	hash: string,
 ): Promise<boolean> =>
-	await agVerify(hash, password, agOption)
+	await verify(hash, password, agOption)
+
+export const sign = async (id: string) =>
+	new Promise((resolve, reject) =>
+		jwtSign(
+			{},
+			jwtSecret,
+			{
+				expiresIn: jwtExpiry,
+				subject: id,
+			},
+			(err, token) =>
+				err ? reject(err) : resolve(token),
+		),
+	)
