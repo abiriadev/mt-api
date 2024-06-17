@@ -5,10 +5,6 @@ import { ipSchema } from '@/models/atoms/ip.js'
 
 export const tunnelSchema = indexableSchema
 	.extend({
-		name: z.string().openapi({
-			description: '터널 이름',
-			example: '터널 1',
-		}),
 		ip: ipSchema,
 		serverIp: ipSchema,
 	})
