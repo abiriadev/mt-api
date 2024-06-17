@@ -14,6 +14,7 @@ import {
 	fetchProfileService,
 	updateProfileService,
 } from '@/services/profile'
+import { changePasswordService } from '@/services/account'
 
 const sharedOptions = {
 	...guardOptions,
@@ -102,10 +103,18 @@ hono.openapi(
 			resDescription: '성공시 추가 응답 데이터 없음',
 		},
 	),
-	c => {
+	async c => {
 		const { authId } = c.get('auth')
 		const { oldPassword, newPassword } =
 			c.req.valid('json')
+
+		const res = await changePasswordService({
+			authId,
+			oldPassword,
+			newPassword,
+		})
+
+		if (res === null) throw res
 
 		return new Response(null, {
 			status: 200,
