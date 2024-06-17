@@ -33,3 +33,14 @@ export const sign = async (id: string) =>
 				err ? reject(err) : resolve(token),
 		),
 	)
+
+export const signVerify = async (
+	token: string,
+): Promise<string | null> =>
+	new Promise(resolve =>
+		jwt.verify(token, jwtSecret, (err, payload) =>
+			err ?? typeof payload === 'string'
+				? resolve(null)
+				: resolve(payload?.sub ?? null),
+		),
+	)
