@@ -105,7 +105,7 @@ hono.openapi(
 
 		await prisma.tunnel.update({
 			where: {
-				index: id,
+				index: parseInt(id),
 				userId: authId,
 			},
 			data: {
@@ -135,7 +135,7 @@ hono.openapi(
 
 		await prisma.tunnel.delete({
 			where: {
-				index: id,
+				index: parseInt(id),
 				userId: authId,
 			},
 		})
@@ -161,7 +161,7 @@ hono.openapi(
 
 		const tunnel = await prisma.tunnel.findUnique({
 			where: {
-				index: id,
+				index: parseInt(id),
 				userId: authId,
 			},
 			select: {
@@ -213,7 +213,7 @@ hono.openapi(
 		const res = await prisma.rule.findMany({
 			where: {
 				tunnel: {
-					index: id,
+					index: parseInt(id),
 					userId: authId,
 				},
 			},
@@ -254,7 +254,7 @@ hono.openapi(
 			data: {
 				tunnel: {
 					connect: {
-						index: id,
+						index: parseInt(id),
 						userId: authId,
 					},
 				},
@@ -292,9 +292,9 @@ hono.openapi(
 
 		await prisma.rule.update({
 			where: {
-				index: ruleId,
+				index: parseInt(ruleId),
 				tunnel: {
-					index: id,
+					index: parseInt(id),
 					userId: authId,
 				},
 			},
@@ -325,9 +325,9 @@ hono.openapi(
 
 		await prisma.rule.delete({
 			where: {
-				index: ruleId,
+				index: parseInt(ruleId),
 				tunnel: {
-					index: id,
+					index: parseInt(id),
 					userId: authId,
 				},
 			},
