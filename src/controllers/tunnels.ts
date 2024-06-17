@@ -18,7 +18,10 @@ import {
 	guardOptions,
 } from '@/middlewares/guard.js'
 import { prisma } from '@/services/prisma.js'
-import { createTunnelService } from '@/services/tunnel.js'
+import {
+	createTunnelService,
+	deleteTunnelService,
+} from '@/services/tunnel.js'
 
 const sharedOptions: RouteOptions = {
 	...guardOptions,
@@ -123,11 +126,9 @@ hono.openapi(
 		const { authId } = c.get('auth')
 		const { id } = c.req.valid('param')
 
-		await prisma.tunnel.delete({
-			where: {
-				index: parseInt(id),
-				userId: authId,
-			},
+		await deleteTunnelService({
+			authId,
+			id,
 		})
 
 		return new Response(null, {

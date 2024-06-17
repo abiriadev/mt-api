@@ -1,5 +1,5 @@
 import { prisma } from '@/services/prisma.js'
-import { tunnelUp } from './tunnelMgr'
+import { tunnelDown, tunnelUp } from './tunnelMgr'
 
 export interface CreateTunnelServiceParam {
 	authId: string
@@ -28,4 +28,23 @@ export const createTunnelService = async ({
 		serverIp,
 		clientIp: ip,
 	})
+}
+
+export interface DeleteTunnelServiceParam {
+	authId: string
+	id: string
+}
+
+export const deleteTunnelService = async ({
+	authId,
+	id: index,
+}: DeleteTunnelServiceParam) => {
+	const { id } = await prisma.tunnel.delete({
+		where: {
+			index: parseInt(index),
+			userId: authId,
+		},
+	})
+
+	await tunnelDown(id)
 }
