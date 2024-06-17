@@ -13,8 +13,11 @@ import {
 import {
 	fetchProfileService,
 	updateProfileService,
-} from '@/services/profile'
-import { changePasswordService } from '@/services/account'
+} from '@/services/profile.js'
+import {
+	changePasswordService,
+	deleteAccountService,
+} from '@/services/account.js'
 
 const sharedOptions = {
 	...guardOptions,
@@ -129,8 +132,10 @@ hono.openapi(
 		description: `말그대로 계삭. 현재 복구 기능 그딴 거 없음.`,
 		resDescription: '성공시 추가 응답 데이터 없음',
 	}),
-	c => {
+	async c => {
 		const { authId } = c.get('auth')
+
+		await deleteAccountService(authId)
 
 		return new Response(null, {
 			status: 200,

@@ -37,3 +37,13 @@ export const changePasswordService = async ({
 		},
 	})
 }
+
+export const deleteAccountService = async (
+	authId: string,
+): Promise<void> => {
+	await prisma.user.delete({
+		where: {
+			id: authId,
+		},
+	})
+}
