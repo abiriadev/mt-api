@@ -4,7 +4,8 @@
 	"scripts": {
 		"dev": "tsx watch src/index.ts",
 		"build": "swc src -d dist --strip-leading-paths",
-		"build:tsc": "tsc"
+		"build:tsc": "tsc",
+		"test": "vitest --pool forks"
 	},
 	"dependencies": {
 		"@hono/node-server": "^1.11.3",
@@ -32,6 +33,7 @@
 		"prisma-docs-generator": "^0.8.0",
 		"tsx": "^4.7.1",
 		"typescript": "^5.4.5",
+		"vite-tsconfig-paths": "^4.3.2",
 		"vitest": "^1.6.0"
 	},
 	"type": "module",
