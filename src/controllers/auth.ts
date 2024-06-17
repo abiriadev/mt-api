@@ -6,6 +6,7 @@ import { RouteOptions, newRoute } from '@/utils.js'
 import { prisma } from '@/services/prisma.js'
 import { hash, hashVerify, sign } from '@/services/crypt.js'
 import { Prisma } from '@prisma/client'
+import { signupService } from '@/services/auth'
 
 const sharedOptions: RouteOptions = {
 	tags: ['Auth'],
@@ -34,35 +35,16 @@ hono.openapi(
 	async c => {
 		const { email, password } = c.req.valid('json')
 
-		try {
-			const { id } = await prisma.user.create({
-				data: {
-					email,
-					hash: await hash(password),
-					name: '<실명> PASS placeholder',
-					tel:
-						'<전화번호> PASS placeholder' +
-						Math.random(),
-				},
-			})
+		const res = await signupService({ email, password })
 
-			return c.json({
-				token: await sign(id),
-			})
-		} catch (e) {
-			if (
-				!(
-					e instanceof
-					Prisma.PrismaClientKnownRequestError
-				)
-			)
-				throw e
-			if (e.code !== 'P2002') throw e
-
+		if (res === null)
 			return new Response(null, {
 				status: 409,
 			}) as any // TODO: fix typing
-		}
+
+		return c.json({
+			token: res,
+		})
 	},
 )
 
