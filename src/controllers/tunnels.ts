@@ -206,11 +206,26 @@ hono.openapi(
 			params: idSchema,
 		},
 	),
-	c => {
+	async c => {
 		const { authId } = c.get('auth')
 		const { id } = c.req.valid('param')
 
-		return c.json([])
+		const res = await prisma.rule.findMany({
+			where: {
+				tunnel: {
+					index: id,
+					userId: authId,
+				},
+			},
+			select: {
+				index: true,
+				protocol: true,
+				port: true,
+				comment: true,
+			},
+		})
+
+		return c.json(res)
 	},
 )
 
