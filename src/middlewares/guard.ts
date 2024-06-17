@@ -1,4 +1,4 @@
-import { getConfig } from '@/services/config'
+import { getConfig } from '@/services/config.js'
 import { createMiddleware } from 'hono/factory'
 import { HTTPException } from 'hono/http-exception'
 import { jwt } from 'hono/jwt'
