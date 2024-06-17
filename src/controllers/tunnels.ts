@@ -17,6 +17,7 @@ import {
 	guard,
 	guardOptions,
 } from '@/middlewares/guard.js'
+import { prisma } from '@/services/prisma.js'
 
 const sharedOptions: RouteOptions = {
 	...guardOptions,
@@ -35,10 +36,22 @@ hono.openapi(
 		description: `터널 목록 조회`,
 		resDescription: '터널 배열',
 	}),
-	c => {
+	async c => {
 		const { authId } = c.get('auth')
 
-		return c.json([])
+		const res = await prisma.tunnel.findMany({
+			where: {
+				userId: authId,
+			},
+			select: {
+				index: true,
+				ip: true,
+				serverIp: true,
+				comment: true,
+			},
+		})
+
+		return c.json(res, 200)
 	},
 )
 
