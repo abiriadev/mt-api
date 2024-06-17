@@ -8,11 +8,11 @@ export { hono as indexRoute }
 
 const { host, port } = getConfig()
 
-hono.get('/', c => {
-	return c.json(
+hono.get('/', ({ json }) =>
+	json(
 		versionSchema.parse({
 			version,
 			host: `http://${host}:${port}`,
 		}),
-	)
-})
+	),
+)
