@@ -63,13 +63,28 @@ hono.openapi(
 		reqDescription: '새 터널 정보',
 		resDescription: '성공시 추가 응답 데이터 없음',
 	}),
-	c => {
+	async c => {
 		const { authId } = c.get('auth')
-		const { name, ip, serverIp, comment } =
+		const { ip, serverIp, comment } =
 			c.req.valid('json')
 
+		await prisma.tunnel.create({
+			data: {
+				userId: authId,
+				ip,
+				serverIp,
+				comment,
+			},
+			select: {
+				index: true,
+				ip: true,
+				serverIp: true,
+				comment: true,
+			},
+		})
+
 		return new Response(null, {
-			status: 201,
+			status: 200,
 		})
 	},
 )
