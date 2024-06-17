@@ -1,5 +1,5 @@
 import { z } from 'zod'
-import { indexSchema } from '@/models/_index.js'
+import { indexSchema } from '@/models/atoms/_index.js'
 
 export const idSchema = z.object({
 	id: indexSchema,

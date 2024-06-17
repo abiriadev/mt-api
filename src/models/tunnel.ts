@@ -1,7 +1,7 @@
 import { z } from 'zod'
-import { ipSchema } from '@/models/ip.js'
-import { indexableSchema } from '@/models/indexable.js'
-import { commentableSchema } from '@/models/commentable.js'
+import { indexableSchema } from '@/models/interfaces/indexable.js'
+import { commentableSchema } from '@/models/interfaces/commentable.js'
+import { ipSchema } from '@/models/atoms/ip.js'
 
 export const tunnelSchema = indexableSchema
 	.extend({

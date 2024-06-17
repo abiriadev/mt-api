@@ -1,6 +1,6 @@
 import { z } from 'zod'
-import { emailSchema } from '@/models/email.js'
-import { passwordSchema } from '@/models/password.js'
+import { emailSchema } from '@/models/atoms/email.js'
+import { passwordSchema } from '@/models/atoms/password.js'
 
 export const signupSchema = z
 	.object({
