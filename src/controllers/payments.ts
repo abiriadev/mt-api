@@ -6,14 +6,17 @@ import {
 	paymentSchema,
 } from '@/models/payment.js'
 import { idSchema } from '@/models/params.js'
-import { guardOptions } from '@/middlewares/guard.js'
+import {
+	AuthContext,
+	guardOptions,
+} from '@/middlewares/guard.js'
 
 const sharedOptions: RouteOptions = {
 	...guardOptions,
 	tags: ['Payments'],
 }
 
-const hono = new OpenAPIHono()
+const hono = new OpenAPIHono<AuthContext>()
 export { hono as paymentsRoute }
 
 hono.openapi(
@@ -24,6 +27,8 @@ hono.openapi(
 		resDescription: '결제 수단 배열',
 	}),
 	c => {
+		const { authId } = c.get('auth')
+
 		return c.json([])
 	},
 )
@@ -38,6 +43,7 @@ hono.openapi(
 		resDescription: '성공시 추가 응답 데이터 없음',
 	}),
 	c => {
+		const { authId } = c.get('auth')
 		const { authKey } = c.req.valid('json')
 
 		return new Response(null, {
@@ -60,6 +66,8 @@ hono.openapi(
 		},
 	),
 	c => {
+		const { authId } = c.get('auth')
+
 		return c.json([])
 	},
 )
@@ -73,6 +81,7 @@ hono.openapi(
 		params: idSchema,
 	}),
 	c => {
+		const { authId } = c.get('auth')
 		const { id } = c.req.valid('param')
 
 		return new Response(null, {

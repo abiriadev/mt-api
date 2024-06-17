@@ -5,14 +5,17 @@ import {
 	updateProfileSchema,
 } from '@/models/profile.js'
 import { changePasswordSchema } from '@/models/atoms/password.js'
-import { guardOptions } from '@/middlewares/guard.js'
+import {
+	AuthContext,
+	guardOptions,
+} from '@/middlewares/guard.js'
 
 const sharedOptions = {
 	...guardOptions,
 	tags: ['Account'],
 } satisfies RouteOptions
 
-const hono = new OpenAPIHono()
+const hono = new OpenAPIHono<AuthContext>()
 export { hono as accountRoute }
 
 hono.openapi(
@@ -23,6 +26,8 @@ hono.openapi(
 		resDescription: '프로필 정보',
 	}),
 	c => {
+		const { authId } = c.get('auth')
+
 		return c.json({
 			name: '',
 			tel: '',
@@ -46,6 +51,7 @@ hono.openapi(
 		},
 	),
 	c => {
+		const { authId } = c.get('auth')
 		const { email } = c.req.valid('json')
 
 		return new Response(null, {
@@ -69,6 +75,7 @@ hono.openapi(
 		},
 	),
 	c => {
+		const { authId } = c.get('auth')
 		const { oldPassword, newPassword } =
 			c.req.valid('json')
 
@@ -85,7 +92,9 @@ hono.openapi(
 		description: `말그대로 계삭. 현재 복구 기능 그딴 거 없음.`,
 		resDescription: '성공시 추가 응답 데이터 없음',
 	}),
-	_ => {
+	c => {
+		const { authId } = c.get('auth')
+
 		return new Response(null, {
 			status: 200,
 		})

@@ -12,14 +12,17 @@ import {
 	ruleSchema,
 	updateRuleSchema,
 } from '@/models/rule.js'
-import { guardOptions } from '@/middlewares/guard.js'
+import {
+	AuthContext,
+	guardOptions,
+} from '@/middlewares/guard.js'
 
 const sharedOptions: RouteOptions = {
 	...guardOptions,
 	tags: ['Tunnels'],
 }
 
-const hono = new OpenAPIHono()
+const hono = new OpenAPIHono<AuthContext>()
 export { hono as tunnelsRoute }
 
 hono.openapi(
@@ -30,6 +33,8 @@ hono.openapi(
 		resDescription: '터널 배열',
 	}),
 	c => {
+		const { authId } = c.get('auth')
+
 		return c.json([])
 	},
 )
@@ -43,6 +48,7 @@ hono.openapi(
 		resDescription: '성공시 추가 응답 데이터 없음',
 	}),
 	c => {
+		const { authId } = c.get('auth')
 		const { name, ip, serverIp, comment } =
 			c.req.valid('json')
 
@@ -61,6 +67,7 @@ hono.openapi(
 		params: idSchema,
 	}),
 	c => {
+		const { authId } = c.get('auth')
 		const { id } = c.req.valid('param')
 		const { name, ip, serverIp, comment } =
 			c.req.valid('json')
@@ -80,6 +87,7 @@ hono.openapi(
 		params: idSchema,
 	}),
 	c => {
+		const { authId } = c.get('auth')
 		const { id } = c.req.valid('param')
 
 		return new Response(null, {
@@ -98,6 +106,7 @@ hono.openapi(
 		params: idSchema,
 	}),
 	c => {
+		const { authId } = c.get('auth')
 		const { id } = c.req.valid('param')
 
 		return c.json({
@@ -134,6 +143,7 @@ hono.openapi(
 		},
 	),
 	c => {
+		const { authId } = c.get('auth')
 		const { id } = c.req.valid('param')
 
 		return c.json([])
@@ -156,6 +166,7 @@ hono.openapi(
 		},
 	),
 	c => {
+		const { authId } = c.get('auth')
 		const { id } = c.req.valid('param')
 		const { protocol, port, comment } =
 			c.req.valid('json')
@@ -181,6 +192,7 @@ hono.openapi(
 		},
 	),
 	c => {
+		const { authId } = c.get('auth')
 		const { id, ruleId } = c.req.valid('param')
 		const { protocol, port, comment } =
 			c.req.valid('json')
@@ -200,6 +212,7 @@ hono.openapi(
 		params: idRuleSchema,
 	}),
 	c => {
+		const { authId } = c.get('auth')
 		const { id, ruleId } = c.req.valid('param')
 
 		return new Response(null, {
