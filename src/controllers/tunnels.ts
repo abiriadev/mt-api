@@ -100,8 +100,7 @@ hono.openapi(
 	async c => {
 		const { authId } = c.get('auth')
 		const { id } = c.req.valid('param')
-		const { ip, serverIp, comment } =
-			c.req.valid('json')
+		const { comment } = c.req.valid('json')
 
 		await prisma.tunnel.update({
 			where: {
@@ -109,8 +108,6 @@ hono.openapi(
 				userId: authId,
 			},
 			data: {
-				ip,
-				serverIp,
 				comment,
 			},
 		})
@@ -287,8 +284,7 @@ hono.openapi(
 	async c => {
 		const { authId } = c.get('auth')
 		const { id, ruleId } = c.req.valid('param')
-		const { protocol, port, comment } =
-			c.req.valid('json')
+		const { comment } = c.req.valid('json')
 
 		await prisma.rule.update({
 			where: {
@@ -299,8 +295,6 @@ hono.openapi(
 				},
 			},
 			data: {
-				protocol,
-				port,
 				comment,
 			},
 		})
