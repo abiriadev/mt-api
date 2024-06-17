@@ -1,6 +1,6 @@
 import { prisma } from '@/services/prisma.js'
 import { Prisma } from '@prisma/client'
-import { hash, sign } from '@/services/crypt.js'
+import { hash, hashVerify, sign } from '@/services/crypt.js'
 
 export interface SignupServiceParam {
 	email: string
@@ -36,4 +36,26 @@ export const signupService = async ({
 
 		return null
 	}
+}
+
+export interface SigninServiceParam {
+	email: string
+	password: string
+}
+
+export const signinService = async ({
+	email,
+	password,
+}: SigninServiceParam): Promise<string | null> => {
+	const user = await prisma.user.findUnique({
+		where: { email },
+	})
+
+	if (user === null) return null
+
+	const { id, hash } = user
+
+	if (!(await hashVerify(password, hash))) return null
+
+	return await sign(id)
 }

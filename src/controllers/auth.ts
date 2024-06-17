@@ -4,9 +4,10 @@ import { signupSchema } from '@/models/signup.js'
 import { authInfoSchema } from '@/models/auth-info.js'
 import { RouteOptions, newRoute } from '@/utils.js'
 import { prisma } from '@/services/prisma.js'
-import { hash, hashVerify, sign } from '@/services/crypt.js'
-import { Prisma } from '@prisma/client'
-import { signupService } from '@/services/auth'
+import {
+	signinService,
+	signupService,
+} from '@/services/auth'
 
 const sharedOptions: RouteOptions = {
 	tags: ['Auth'],
@@ -35,15 +36,18 @@ hono.openapi(
 	async c => {
 		const { email, password } = c.req.valid('json')
 
-		const res = await signupService({ email, password })
+		const token = await signupService({
+			email,
+			password,
+		})
 
-		if (res === null)
+		if (token === null)
 			return new Response(null, {
 				status: 409,
 			}) as any // TODO: fix typing
 
 		return c.json({
-			token: res,
+			token,
 		})
 	},
 )
@@ -68,24 +72,18 @@ hono.openapi(
 	async c => {
 		const { email, password } = c.req.valid('json')
 
-		const user = await prisma.user.findUnique({
-			where: { email },
+		const token = await signinService({
+			email,
+			password,
 		})
 
-		if (user === null)
-			return new Response(null, {
-				status: 401,
-			}) as any // TODO: fix typing
-
-		const { id, hash } = user
-
-		if (!(await hashVerify(password, hash)))
+		if (token === null)
 			return new Response(null, {
 				status: 401,
 			}) as any // TODO: fix typing
 
 		return c.json({
-			token: await sign(id),
+			token,
 		})
 	},
 )
