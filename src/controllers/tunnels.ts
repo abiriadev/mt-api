@@ -284,14 +284,29 @@ hono.openapi(
 			params: idRuleSchema,
 		},
 	),
-	c => {
+	async c => {
 		const { authId } = c.get('auth')
 		const { id, ruleId } = c.req.valid('param')
 		const { protocol, port, comment } =
 			c.req.valid('json')
 
+		await prisma.rule.update({
+			where: {
+				index: ruleId,
+				tunnel: {
+					index: id,
+					userId: authId,
+				},
+			},
+			data: {
+				protocol,
+				port,
+				comment,
+			},
+		})
+
 		return new Response(null, {
-			status: 204,
+			status: 200,
 		})
 	},
 )
