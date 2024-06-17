@@ -15,7 +15,7 @@ const networkConfigSchema = z.object({
 
 const authCredentialsConfigSchema = z.object({
 	jwtSecret: secretSchema,
-	jwtExpiry: z.string().default('1m'),
+	jwtExpiry: z.string().default('4w'),
 	pepper: secretSchema,
 })
 
