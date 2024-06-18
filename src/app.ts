@@ -6,10 +6,25 @@ import { tunnelsRoute } from '@/controllers/tunnels.js'
 import { openapi } from '@/openapi.js'
 import { logger } from './middlewares/logger.js'
 import { indexRoute } from './controllers/_index.js'
+import { cors } from 'hono/cors'
+import { getConfig } from './services/config.js'
+
+const { cors: allowedOrigins } = getConfig()
 
 export const hono = new OpenAPIHono()
 
 hono.use(logger)
+
+hono.use(
+	cors({
+		origin: origin =>
+			allowedOrigins.some(allowed =>
+				new RegExp(allowed).test(origin),
+			)
+				? origin
+				: null,
+	}),
+)
 
 hono.doc('/openapi', {
 	openapi: '3.0.1',
