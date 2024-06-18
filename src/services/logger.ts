@@ -1,3 +1,5 @@
 import { Logger } from 'tslog'
 
-export const logger = new Logger()
+export const logger = new Logger({
+	name: 'app',
+})
