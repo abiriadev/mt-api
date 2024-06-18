@@ -11,6 +11,15 @@ const secretSchema = z.string().min(4)
 const networkConfigSchema = z.object({
 	host: z.string().default('api.mitigation.kr'),
 	port: simplePortSchema.default(2727),
+	cors: z
+		.string()
+		.array()
+		.default([
+			'http://mitigation.kr',
+			'https://mitigation.kr',
+			'http://localhost',
+			'https://localhost',
+		]),
 })
 
 const authCredentialsConfigSchema = z.object({
