@@ -8,12 +8,16 @@ import { logger } from './middlewares/logger.js'
 import { indexRoute } from './controllers/_index.js'
 import { cors } from 'hono/cors'
 import { getConfig } from './services/config.js'
+import { prometheus } from '@hono/prometheus'
 
 const { cors: allowedOrigins } = getConfig()
+const { printMetrics, registerMetrics } = prometheus()
 
 export const hono = new OpenAPIHono()
 
 hono.use(logger)
+hono.use(registerMetrics)
+hono.get('/metrics', printMetrics)
 
 hono.use(
 	cors({
