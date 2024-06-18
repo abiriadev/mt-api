@@ -1,0 +1,24 @@
+concurrency: 4
+base: http://localhost:2727
+iterations: 128
+plan:
+  - name: Index route
+    request:
+      url: /
+  - name: Generate credentials
+    exec:
+      command: jo email=$(fakedata email -l 1) password=1234!
+    assign: user
+  - name: Signup
+    request:
+      url: /auth/signup
+      method: POST
+      body: '{{ user }}'
+      headers:
+        Content-Type: application/json
+    assign: token
+  - name: List tunnels
+    request:
+      url: /tunnels
+      headers:
+        Authorization: 'Bearer {{ token.body.token }}'
