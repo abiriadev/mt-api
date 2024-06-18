@@ -1,6 +1,10 @@
 import { createMiddleware } from 'hono/factory'
 import { logger } from '@/services/logger.js'
 
+const endpintLogger = logger.getSubLogger({
+	name: 'endpoint',
+})
+
 const loggerMiddleware = createMiddleware(
 	async (c, next) => {
 		let reqBody = null
@@ -18,7 +22,7 @@ const loggerMiddleware = createMiddleware(
 			reqBody = '[failed to parse body]'
 		}
 
-		logger.info({
+		endpintLogger.info({
 			method: c.req.method,
 			path: c.req.path,
 			query: c.req.query(),
@@ -40,7 +44,8 @@ const loggerMiddleware = createMiddleware(
 
 		await next()
 
-		if (c.error) return void logger.error(c.error)
+		if (c.error)
+			return void endpintLogger.error(c.error)
 
 		let resBody = null
 		const clonedRes = c.res.clone()
@@ -57,7 +62,7 @@ const loggerMiddleware = createMiddleware(
 			resBody = '[failed to parse body]'
 		}
 
-		logger.info({
+		endpintLogger.info({
 			ok: c.res.ok,
 			status: c.res.status,
 			header: Object.fromEntries(
