@@ -40,7 +40,7 @@ const loggerMiddleware = createMiddleware(
 
 		await next()
 
-		if (c.error) return logger.error(c.error)
+		if (c.error) return void logger.error(c.error)
 
 		let resBody = null
 		const clonedRes = c.res.clone()
