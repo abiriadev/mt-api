@@ -8,6 +8,20 @@ services:
       - POSTGRES_DB=${DB_DATABASE:-miti}
     volumes:
       - ./mnt/postgres:/var/lib/postgresql/data
+  prometheus:
+    image: prom/prometheus
+    restart: always
+    user: root
+    ports:
+      - 9090:9090
+    volumes:
+      - type: bind
+        read_only: true
+        source: ./prometheus.yaml
+        target: /etc/prometheus/prometheus.yml
+      - type: bind
+        source: ./mnt/prometheus
+        target: /prometheus
   api:
     build: .
     restart: always
