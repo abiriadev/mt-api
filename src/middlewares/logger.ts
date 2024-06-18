@@ -3,19 +3,19 @@ import { logger } from '@/services/logger.js'
 
 const loggerMiddleware = createMiddleware(
 	async (c, next) => {
-		let body = null
+		let reqBody = null
 		const clonedReq = c.req.raw.clone()
 
 		try {
 			const rawText = await clonedReq.text()
 
 			try {
-				body = JSON.parse(rawText)
+				reqBody = JSON.parse(rawText)
 			} catch {
-				body = rawText
+				reqBody = rawText
 			}
 		} catch {
-			body = '[failed to parse body]'
+			reqBody = '[failed to parse body]'
 		}
 
 		logger.info({
@@ -24,7 +24,7 @@ const loggerMiddleware = createMiddleware(
 			query: c.req.query(),
 			header: c.req.header(),
 			url: c.req.url,
-			body,
+			body: reqBody,
 			routes: c.req.matchedRoutes.map(
 				({ path, method, handler }) => ({
 					path,
@@ -39,6 +39,32 @@ const loggerMiddleware = createMiddleware(
 		})
 
 		await next()
+
+		if (c.error) return logger.error(c.error)
+
+		let resBody = null
+		const clonedRes = c.res.clone()
+
+		try {
+			const rawText = await clonedRes.text()
+
+			try {
+				resBody = JSON.parse(rawText)
+			} catch {
+				resBody = rawText
+			}
+		} catch {
+			resBody = '[failed to parse body]'
+		}
+
+		logger.info({
+			ok: c.res.ok,
+			status: c.res.status,
+			header: Object.fromEntries(
+				c.res.headers.entries(),
+			),
+			body: resBody,
+		})
 	},
 )
 export { loggerMiddleware as logger }
