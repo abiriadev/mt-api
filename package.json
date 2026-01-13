@@ -16,7 +16,7 @@
 		"@prisma/client": "5.15.0",
 		"argon2": "^0.40.3",
 		"change-case": "^5.4.4",
-		"hono": "^4.4.6",
+		"hono": "^4.11.4",
 		"jsonwebtoken": "^9.0.2",
 		"prom-client": "^15.1.2",
 		"shell-exec": "^1.1.2",
